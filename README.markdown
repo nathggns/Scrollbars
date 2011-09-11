@@ -14,6 +14,10 @@ Then add in jQuery
 
 	<script type="text/javascript" src="jquery.js"></script>
 
+Include jQuery Mousewheel if you want mousewheel support
+
+	<script type="text/javascript" src="jquery.mousewheel.js"></script>
+
 Then add in Scrollbars
 
 	<script type="text/javascript" src="jquery.scrollbars.js"></script>
