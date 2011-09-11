@@ -3,13 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jQuery.scrollbars.js</title>
-	<script type="text/javascript" src="jquery-1.6.3.min.js"></script>
-	<script type="text/javascript" src="jquery.scrollbars.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$('div').scrollbars();
-	});
-	</script>
 	<style type="text/css">
 	@import url(jquery.scrollbars.css);
 	#div-1, #div-2 {
@@ -20,6 +13,13 @@
 		margin-right: 30px;
 	}
 	</style>
+	<script type="text/javascript" src="jquery-1.6.3.min.js"></script>
+	<script type="text/javascript" src="jquery.scrollbars.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#div-1, #div-2').scrollbars();
+	});
+	</script>
 </head>
 <body>
 	<div id="div-1">

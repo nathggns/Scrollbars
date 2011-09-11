@@ -4,6 +4,8 @@ Scrollbars is an easy to use, jQuery plugin which enables you to create themeabl
 
 # Usage
 
+**Notice:** ALWAYS put the css before the javascript!!!!
+
 First you have to include the base css files
 
 	<link href="jquery.scrollbars.css" rel="stylesheet" type="text/css" />
