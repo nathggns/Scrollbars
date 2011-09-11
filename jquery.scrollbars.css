@@ -1,0 +1,25 @@
+.scrollWrap {
+	position: relative;
+}
+
+.scrollYWrap {
+	position: absolute;
+	right: -15px;
+	top: 0px;
+	width: 10px;
+	height: 0px;
+}
+
+.scrollYBar {
+	width: 10px;
+	background: #000;
+}
+
+.scrollWrapHide {
+	padding-right: 15px;
+}
+
+.scrollBar {
+	cursor: pointer;
+	position: relative;
+}
