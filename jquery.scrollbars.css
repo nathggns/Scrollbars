@@ -4,19 +4,22 @@
 
 .scrollYWrap {
 	position: absolute;
-	right: -15px;
+	right: 0px;
 	top: 0px;
 	width: 10px;
-	height: 0px;
+	height: 10px;
 }
 
 .scrollYBar {
 	width: 10px;
-	background: #000;
+	background: #777;
+	border-radius: 10px;
+	position: relative;
 }
 
 .scrollWrapHide {
 	padding-right: 15px;
+	position: relative;
 }
 
 .scrollBar {

@@ -31,8 +31,13 @@ Then initialize
 	</script>
 
 
-# Useful information
+# Useful information.
 
-## Is it safe to use Scrollbars on the * selector?
+**Is it safe to use Scrollbars on the * selector?**
 
-Yes, Scrollbars detects if it is needed
+Yes, Scrollbars detects if it is needed. The speed difference is unnoticable. Of course, this isn't ideal if your running this on lots of elements, or on a production server.
+
+**Is it safe to not include the mousewheel plugin?**
+
+Yes, Scrollbars will just turn off mousewheel support if it is absent.
+
