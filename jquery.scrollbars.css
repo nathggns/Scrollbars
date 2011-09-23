@@ -1,27 +1,25 @@
 /* Required CSS */
 
-.scrollElement.paddingWrap {
-	overflow: visible;
+.scrollElement.rootWrap {
+	
 }
 
-.scrollRoot {
-	overflow: hidden !important;
+.scrollElement.contentWrap {
 	position: relative;
 }
 
-.scrollElement.YCon {
+.scrollElement.dragCon {
 	position: absolute;
 	top: 0;
+	right: 0;
 	bottom: 0;
-	right: 0px;
 	width: 20px;
 }
 
-.scrollElement.YBar {
+.scrollElement.drag {
 	position: absolute;
-	top: 0;
+	top: 0px;
 	right: 5px;
 	width: 10px;
-	height: 30px;
 	background: #000;
 }
