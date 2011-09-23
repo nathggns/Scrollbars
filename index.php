@@ -13,8 +13,7 @@
 		margin-right: 30px;
 	}
 	</style>
-	<script type="text/javascript" src="jquery-1.6.3.min.js"></script>
-	<script type="text/javascript" src="jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="jquery.scrollbars.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {

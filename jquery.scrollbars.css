@@ -1,28 +1,27 @@
-.scrollWrap {
+/* Required CSS */
+
+.scrollElement.paddingWrap {
+	overflow: visible;
+}
+
+.scrollRoot {
+	overflow: hidden !important;
 	position: relative;
 }
 
-.scrollYWrap {
+.scrollElement.YCon {
 	position: absolute;
+	top: 0;
+	bottom: 0;
 	right: 0px;
-	top: 0px;
+	width: 20px;
+}
+
+.scrollElement.YBar {
+	position: absolute;
+	top: 0;
+	right: 5px;
 	width: 10px;
-	height: 10px;
-}
-
-.scrollYBar {
-	width: 10px;
-	background: #777;
-	border-radius: 10px;
-	position: relative;
-}
-
-.scrollWrapHide {
-	padding-right: 15px;
-	position: relative;
-}
-
-.scrollBar {
-	cursor: pointer;
-	position: relative;
+	height: 30px;
+	background: #000;
 }
