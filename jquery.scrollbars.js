@@ -4,7 +4,9 @@
 	var methods = {
 		init: function() {
 			// Test if we need to use our plugin
-			if (this.css('overflow') != 'auto' && this.css('overflow') != 'hidden') return;
+			overflow = this.css('overflow');
+			overflowY = this.css('overflow-y');
+			if (overflow != 'auto' && overflowY != 'scroll' && overflowY != 'auto' && overflowY != 'scroll') return;
 
 			// Make sure we don't have position static
 			if (this.css('position') === 'static') this.css('position', 'relative');
@@ -30,6 +32,9 @@
 			methods.addEvents.apply(this);
 		},
 		generate: function(id) {
+
+			rightPadding = this.data('opts')['rightPadding'];
+
 			this.addClass('scrollRoot').addClass(id);
 			// Create a root wrap to make space for scrollbars
 			rootWrap = $(document.createElement('div'));
@@ -40,7 +45,7 @@
 				.html(this.html())
 				.css({
 					height: this.height(),
-					width: this.width() - 20
+					width: this.width() - rightPadding
 				});
 			
 			this.html('').append(rootWrap);
@@ -65,7 +70,7 @@
 			this.append(dragCon);
 
 			// Work out a ratio
-			ratio = rootWrap.height() / contentWrap.height();
+			ratio = dragCon.height() / contentWrap.height();
 			dragHeight = +(rootWrap.height() * ratio);
 
 			// Create our dragger
@@ -104,7 +109,7 @@
 
 					methods.move.call($('.scrollRoot.' + $(this).data('id')), offset);
 				});
-			})
+			});
 		},
 		move: function(offset) {
 			drag = this.find('.drag');
@@ -126,7 +131,7 @@
 				'top': distance
 			});
 
-			trackDistance = rootWrap.height() - drag.height();
+			trackDistance = drag.parent().height() - drag.height();
 			notVisible = contentWrap.height() - rootWrap.height();
 			distanceRatio = notVisible / trackDistance
 
@@ -137,9 +142,15 @@
 			});
 		}
 	}
-	$.fn.scrollbars = function() {
+	$.fn.scrollbars = function(options) {
+		var opts = $.fn.extend($.fn.scrollbars.defaults, options);
 		return this.each(function() {
+			$(this).data('opts', opts);
 			methods.init.apply($(this), arguments);
 		});
+	}
+
+	$.fn.scrollbars.defaults = {
+		'rightPadding': 20
 	}
 })(jQuery);

@@ -1,0 +1,9 @@
+.drag {
+	border-radius: 10px;
+	background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.dragCon {
+	top: 10px !important;
+	bottom: 10px !important;
+}

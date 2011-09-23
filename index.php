@@ -5,6 +5,7 @@
 	<title>jQuery.scrollbars.js</title>
 	<style type="text/css">
 	@import url(jquery.scrollbars.css);
+	@import url(lion.theme.css);
 	#div-1, #div-2 {
 		width: 300px;
 		height: 180px;
@@ -17,7 +18,7 @@
 	<script type="text/javascript" src="jquery.scrollbars.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
-		$('*').scrollbars();
+		$('*').scrollbars({ rightPadding: 0 });
 	});
 	</script>
 </head>
