@@ -1,5 +1,8 @@
 (function($) {
-	var data = {};
+	// Custom selector to find img elements that have a valid src attribute and have not already loaded.
+	$.expr[':'].uncached = function(obj) {
+		return $(obj).is('img[src!=""]') && ! obj.complete; 
+	};
 
 	var methods = {
 		init: function() {
@@ -10,6 +13,41 @@
 			overflow = this.css('overflow');
 			overflowY = this.css('overflow-y');
 			if (overflow != 'auto' && overflowY != 'scroll' && overflowY != 'auto' && overflowY != 'scroll') return;
+
+			// Wait until we are finished
+
+			allImgs = this.find('img');
+			allImgsLength = allImgs.length;
+			allImgsLoaded = 0;
+
+			if (allImgsLength == 0) {
+				methods.prepare.call(this);
+			} else {
+				$.each(allImgs, function(i, img) {
+					image = new Image;
+
+					$(image)
+						.data('ele', ele)
+						.data('data', [allImgsLength, allImgsLoaded])
+						.bind('load', function(event) {
+							data = $(this).data('data');
+
+							data[1]++;
+
+							if (data[1] == data[0]) {
+								methods.prepare.call($(this).data('ele'));
+							}
+
+							$(this).data('data', data);
+						});
+					
+					image.src = img.src;
+				});
+			}
+		},
+		prepare: function() {
+			// Create reference to this
+			ele = this;
 
 			// Make sure we don't have position static
 			if (this.css('position') === 'static') this.css('position', 'relative');
