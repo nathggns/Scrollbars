@@ -88,6 +88,8 @@
 			dragCon.append(drag);
 		},
 		addEvents: function() {
+			mousewheel = this.data('opts')['mousewheel'];
+
 			drag = this.find('.drag');
 			contentWrap = this.find('.contentWrap');
 
@@ -110,10 +112,11 @@
 					methods.move.call($('.scrollRoot.' + $(this).data('id')), offset);
 				});
 			});
-
-			this.mousewheel(function(event, delta) {
-				methods.move.call($(this), -(delta*1.5));
-			})
+			if ($().mousewheel && mousewheel) {
+				this.mousewheel(function(event, delta) {
+					methods.move.call($(this), -(delta*1.5));
+				});
+			}
 		},
 		move: function(offset) {
 			drag = this.find('.drag');
@@ -155,6 +158,7 @@
 	}
 
 	$.fn.scrollbars.defaults = {
-		'rightPadding': 20
+		'rightPadding': 20,
+		'mousewheel': true
 	}
 })(jQuery);
