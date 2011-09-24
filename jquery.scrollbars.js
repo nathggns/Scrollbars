@@ -89,6 +89,7 @@
 		},
 		addEvents: function() {
 			mousewheel = this.data('opts')['mousewheel'];
+			cursor = this.data('opts')['mousedragcursor'];
 
 			drag = this.find('.drag');
 			contentWrap = this.find('.contentWrap');
@@ -96,18 +97,45 @@
 			drag.mousedown(function(event) {
 				$(this).data('move', event.pageY);
 				$('body').css({
-					cursor: 'normal'
+					'cursor': 'default'
 				});
 				event.preventDefault();
 			});
 
+			if (this.data('opts')['mousedrag']) {
+				this.mousedown(function(event) {
+					drag = $(this).find('.drag');
+					drag.data('move', event.pageY);
+					drag.data('multiply', '-1');
+					$('body').css({
+						'cursor': cursor
+					})
+					event.preventDefault();
+				}).hover(function() {
+					$(this).css({
+						'cursor': cursor
+					})
+				}, function() {
+					$(this).css({
+						'cursor': 'auto'
+					});
+				});
+			}
+
 			$('*').mouseup(function(event) {
 				$('.scrollElement.drag').data('move', false);
+				$('body').css({
+					cursor: 'auto'
+				});
 			}).mousemove(function(event) {
 				$('.scrollElement.drag').each(function() {
 					if (!$(this).data('move')) return;
 					offset = event.pageY - $(this).data('move');
 					$(this).data('move', event.pageY);
+
+					if ($(this).data('multiply')) {
+						offset = offset * parseFloat($(this).data('multiply'));
+					}
 
 					methods.move.call($('.scrollRoot.' + $(this).data('id')), offset);
 				});
@@ -159,6 +187,8 @@
 
 	$.fn.scrollbars.defaults = {
 		'rightPadding': 20,
-		'mousewheel': true
+		'mousewheel': true,
+		'mousedrag': false,
+		'mousedragcursor': 'move'
 	}
 })(jQuery);

@@ -51,6 +51,12 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **mousewheel**:
   - Default: true
   - Use: Enable/Disable mousewheel support.
+ - **mousedrag**:
+  - Default: false
+  - Use: Enabled/Disable mouse drag support
+ - **mousedragcursor**:
+  - Default: move
+  - Use: Choose cursor that is used for mouse drag
 
 **Will you ever get horizontal support?**
 
