@@ -62,6 +62,11 @@ $('*').scrollbars();
 $('*').scrollbars({
 	rightPadding: 0
 });
+
+// Disable mousewheel support
+$('*').scrollbars({
+	mousewheel: false
+})
 ```
 
 # Screenshots.
