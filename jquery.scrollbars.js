@@ -110,6 +110,10 @@
 					methods.move.call($('.scrollRoot.' + $(this).data('id')), offset);
 				});
 			});
+
+			this.mousewheel(function(event, delta) {
+				methods.move.call($(this), -(delta*1.5));
+			})
 		},
 		move: function(offset) {
 			drag = this.find('.drag');
