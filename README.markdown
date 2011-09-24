@@ -60,3 +60,13 @@ $('*').scrollbars({
 	rightPadding: 0
 });
 ```
+
+# Screenshots.
+
+**Lion Theme**
+
+[![lion them](http://s.nath.is/24_09_11_18_47_39.png)](http://s.nath.is/24_09_11_18_47_39.png)
+
+**Lion Theme (overlay)**
+
+[![lion theme (overlay)](http://s.nath.is/24_09_11_18_48_47.png)](http://s.nath.is/24_09_11_18_48_47.png)
