@@ -60,6 +60,10 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **clicktoscroll**:
   - Default: true
   - Use: Allow clicking the dragger container to scroll.
+ - **draggerheight**:
+  - Default: auto
+  - Use: Height of the dragger.
+  - Min: 10
 
 **Will you ever get horizontal support?**
 

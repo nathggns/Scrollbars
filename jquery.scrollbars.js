@@ -74,7 +74,10 @@
 
 			// Work out a ratio
 			ratio = dragCon.height() / contentWrap.height();
-			dragHeight = +(rootWrap.height() * ratio);
+			dragHeight = this.data('opts')['draggerheight'];
+			dragHeight = dragHeight == 'auto' ? +(rootWrap.height() * ratio) : dragHeight;
+			dragHeight = dragHeight < 10 ? 10 : dragHeight;
+			dragHeight = dragHeight > dragCon.height() ? dragCon.height() - 10 : dragHeight;
 
 			// Create our dragger
 			drag = $(document.createElement('div'));
@@ -210,6 +213,7 @@
 		'mousewheel': true,
 		'mousedrag': false,
 		'mousedragcursor': 'move',
-		'clicktoscroll': true
+		'clicktoscroll': true,
+		'draggerheight': 'auto'
 	}
 })(jQuery);
