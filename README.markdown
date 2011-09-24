@@ -49,3 +49,14 @@ If you pass an array to the plugin, we can change certain things, such as:
   - Default: 20
   - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
 
+# Examples.
+
+```javascript
+// Default scrollbars
+$('*').scrollbars();
+
+// Overlay scrollbars
+$('*').scrollbars({
+	rightPadding: 0
+});
+```
