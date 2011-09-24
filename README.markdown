@@ -104,6 +104,11 @@ $('*').scrollbars({
 $('*').scrollbars({
 	clicktoscroll: false
 });
+
+// Make dragger 50px tall
+$('*').scrollbars({
+	draggerheight: 50
+});
 ```
 
 # Screenshots.
