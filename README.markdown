@@ -57,6 +57,9 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **mousedragcursor**:
   - Default: move
   - Use: Choose cursor that is used for mouse drag
+ - **clicktoscroll**:
+  - Default: true
+  - Use: Allow clicking the dragger container to scroll.
 
 **Will you ever get horizontal support?**
 
@@ -91,7 +94,12 @@ $('*').scrollbars({
 $('*').scrollbars({
 	mousedrag: true,
 	mousedragcursor: 'pointer'
-})
+});
+
+// Disable clicktoscroll
+$('*').scrollbars({
+	clicktoscroll: false
+});
 ```
 
 # Screenshots.

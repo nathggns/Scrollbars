@@ -3,6 +3,9 @@
 
 	var methods = {
 		init: function() {
+			// Create a reference to this
+			ele = this;
+
 			// Test if we need to use our plugin
 			overflow = this.css('overflow');
 			overflowY = this.css('overflow-y');
@@ -145,6 +148,23 @@
 					methods.move.call($(this), -(delta*1.5));
 				});
 			}
+
+			if (this.data('opts')['clicktoscroll'])
+			{
+				this.find('.dragCon').click(function(event) {
+					pageY = event.pageY;
+					drag = $(this).find('.drag');
+					ele = $('.scrollRoot.' + drag.data('id'));
+
+					offset = event.pageY;
+					offset = offset - (drag.height() / 2);
+					offset = offset - drag.offset().top;
+
+					methods.move.call(ele, offset);
+					event.preventDefault();
+					return false;
+				})
+			}
 		},
 		move: function(offset) {
 			drag = this.find('.drag');
@@ -189,6 +209,7 @@
 		'rightPadding': 20,
 		'mousewheel': true,
 		'mousedrag': false,
-		'mousedragcursor': 'move'
+		'mousedragcursor': 'move',
+		'clicktoscroll': true
 	}
 })(jQuery);
