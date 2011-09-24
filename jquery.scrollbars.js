@@ -29,7 +29,9 @@
 			id = 'scroll-' + Math.floor(Math.random() * 10000);
 
 			// Call generate function
-			methods.generate.apply(this, Array(id));
+			need = methods.generate.apply(this, Array(id));
+
+			if (!need) { return false; }
 
 			// Add our event listeners
 			methods.addEvents.apply(this);
@@ -50,8 +52,6 @@
 					height: this.height(),
 					width: this.width() - rightPadding
 				});
-			
-			this.html('').append(rootWrap);
 
 			// Create a content wrap for various calculations and manipulations
 			contentWrap = $(document.createElement('div'));
@@ -61,7 +61,14 @@
 				.addClass('contentWrap')
 				.html(rootWrap.html());
 			
+			this.html('').append(rootWrap);
 			rootWrap.html('').append(contentWrap);
+
+			// Check if we need these scrollbars
+			if (rootWrap.height() > contentWrap.height()) {
+				methods.uninit.call(this);
+				return false;
+			}
 
 			// Create a container for the dragger
 			dragCon = $(document.createElement('div'));
@@ -92,6 +99,7 @@
 				.data('ratio', ratio);
 
 			dragCon.append(drag);
+			return true;
 		},
 		addEvents: function() {
 			mousewheel = this.data('opts')['mousewheel'];
@@ -198,6 +206,9 @@
 			contentWrap.css({
 				top: distance
 			});
+		},
+		uninit: function() {
+			this.html(this.find('.rootWrap').html());
 		}
 	}
 	$.fn.scrollbars = function(options) {
