@@ -81,6 +81,17 @@ $('*').scrollbars({
 $('*').scrollbars({
 	mousewheel: false
 })
+
+// Enable mousedrag support
+$('*').scrollbars({
+	mousedrag: true
+});
+
+// Enable mousedrag support and change cursor to pointer
+$('*').scrollbars({
+	mousedrag: true,
+	mousedragcursor: 'pointer'
+})
 ```
 
 # Screenshots.
