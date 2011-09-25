@@ -1,9 +1,4 @@
 (function($) {
-	// Custom selector to find img elements that have a valid src attribute and have not already loaded.
-	$.expr[':'].uncached = function(obj) {
-		return $(obj).is('img[src!=""]') && ! obj.complete; 
-	};
-
 	var methods = {
 		init: function() {
 			// Create a reference to this
@@ -23,13 +18,13 @@
 			if (allImgsLength == 0) {
 				methods.prepare.call(this);
 			} else {
-				$.each(allImgs, function(i, img) {
+				imgs = {};
+				$(allImgs).each(function() {
 					image = new Image;
-
 					$(image)
 						.data('ele', ele)
 						.data('data', [allImgsLength, allImgsLoaded])
-						.bind('load', function(event) {
+						.bind('load', function() {
 							data = $(this).data('data');
 
 							data[1]++;
@@ -41,8 +36,8 @@
 							$(this).data('data', data);
 						});
 					
-					image.src = img.src;
-				});
+					image.src = this.src;
+				})
 			}
 		},
 		prepare: function() {
@@ -135,6 +130,11 @@
 				})
 				.data('id', id)
 				.data('ratio', ratio);
+			
+			// Auto hide option
+			if (this.data('opts')['autohide']) {
+				drag.fadeTo(0, 0);
+			}
 
 			dragCon.append(drag);
 			return true;
@@ -198,8 +198,7 @@
 				});
 			}
 
-			if (this.data('opts')['clicktoscroll'])
-			{
+			if (this.data('opts')['clicktoscroll']) {
 				this.find('.dragCon').click(function(event) {
 					pageY = event.pageY;
 					drag = $(this).find('.drag');
@@ -212,6 +211,16 @@
 					methods.move.call(ele, offset);
 					event.preventDefault();
 					return false;
+				})
+			}
+
+			if (this.data('opts')['autohide']) {
+				this.hover(function() {
+					drag = $(this).find('.drag');
+					drag.fadeTo(400, 1);
+				}, function() {
+					drag = $(this).find('.drag');
+					drag.fadeTo(400, 0);
 				})
 			}
 		},
@@ -263,6 +272,7 @@
 		'mousedrag': false,
 		'mousedragcursor': 'move',
 		'clicktoscroll': true,
-		'draggerheight': 'auto'
+		'draggerheight': 'auto',
+		'autohide': false
 	}
 })(jQuery);

@@ -64,6 +64,9 @@ If you pass an array to the plugin, we can change certain things, such as:
   - Default: auto
   - Use: Height of the dragger.
   - Min: 10
+ - **autihide**:
+  - Default: false
+  - Use: Enable/Disable autohiding of the dragger
 
 **Will you ever get horizontal support?**
 
@@ -108,6 +111,11 @@ $('*').scrollbars({
 // Make dragger 50px tall
 $('*').scrollbars({
 	draggerheight: 50
+});
+
+// Enable autohiding of the dragger
+$('*').scrollbars({
+  autohide: true
 });
 ```
 
