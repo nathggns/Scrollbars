@@ -19,8 +19,8 @@
 	<script type="text/javascript" src="jquery.scrollbars.js"></script>
 	<script type="text/javascript">							
 	$(document).ready(function() {
-		$('#div-1').scrollbars({ mousedrag: true});
-		$('#div-2').scrollbars({yPadding:20});
+		$('#div-1').scrollbars();
+		$('#div-2').scrollbars();
 	});
 	</script>
 </head>

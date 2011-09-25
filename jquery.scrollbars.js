@@ -165,7 +165,6 @@
 							rootWrap.css({
 								height: rootWrap.height() + xPadding
 							});
-							console.log(drag);
 							return false;
 						}
 
@@ -236,29 +235,30 @@
 						} else {
 							$(this).data('move', event.pageY);
 						}
+						$(this).addClass('active');
 						$('body').addClass('scrollingActive');
 						event.preventDefault();
 						return false;
 					});
 
-					$('*').mouseup(function(event) {
-						$('.drag' + axis).data('move', false);
-						$('body').removeClass('scrollingActive');
-					}).mousemove(function(event) {
-						$('.drag' + axis).each(function() {
-							if ($(this).data('move')) {
-								ele = $('.scrollRoot.' + id);
+					$('*').mousemove(function(event) {
+						$('.scrollRoot').each(function() {
+							var drag = $(this).find('.drag' + axis);
+							if (drag.data('move')) {
 								if (axis == 'X') {
-									methods.move.call(ele, event.pageX - $(this).data('move'), axis);
-									$(this).data('move', event.pageX);
+									var distance = event.pageX - drag.data('move');
+									methods.move.call($(this), distance, axis)
+									drag.data('move', event.pageX);
 								} else {
-									methods.move.call(ele, event.pageY - $(this).data('move'), axis);
-									$(this).data('move', event.pageY);
+									var distance = event.pageY - drag.data('move');
+									methods.move.call($(this), distance, axis)
+									drag.data('move', event.pageY);
 								}
-								event.preventDefault();
 							}
-						})
-					});
+						});
+					}).mouseup(function(event) {
+						$('.dragX, .dragY').data('move', false);
+					})
 
 					// Mousewheel support
 					if ($().mousewheel && data[this].opts.mousewheel) {
@@ -296,7 +296,6 @@
 								current = event.pageY;
 								current = current - $(this).offset().top;
 								current = current - drag.offset().top;
-								current = current - (drag.height() / 2);
 								methods.move.call($('.scrollRoot.' + id), current, axis);
 							}
 						});
@@ -337,7 +336,9 @@
 							});
 						}).mouseup(function(event) {
 							$('html, body').css({cursor: 'auto'});
-							$('.scrollRoot').data('move', false);
+							$('.scrollRoot').each(function() {
+								$(this).data('move', false);
+							});
 						});
 
 						this.css({cursor:data[this].opts.mousedragcursor});

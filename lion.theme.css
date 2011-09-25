@@ -5,7 +5,7 @@
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	width: 10px;
-	right: 5px;
+	right: 0px;
 	width: 10px;
 }
 
@@ -16,19 +16,23 @@
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	height: 10px;
-	top: 5px;
+	top: 0px;
+	height: 10px;
 }
 
 .dragConY {
 	width: 0px;
 	top: 5px;
 	bottom: 5px;
+	padding: 0px 5px;
+	right: 5px;
 }
 
 .dragConX {
 	height: 0px;
+	padding: 5px 0px;
 	left: 5px;
 	right: 5px;
 	overflow: visible;
-	bottom: 20px;
+	bottom: 5px;
 }
