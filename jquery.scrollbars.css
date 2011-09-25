@@ -1,59 +1,41 @@
 /* Required CSS */
 
-.scrollElement.rootWrap {
-	
-}
-
-.scrollElement.contentWrap {
+.contentWrap {
 	position: relative;
 }
 
-.scrollElement.dragCon {
+.dragConY {
 	position: absolute;
 	top: 0;
 	right: 0;
-	bottom: 0;
-	width: 20px;
+	bottom:0px;
+	width: 10px;
 }
 
-.scrollElement.drag {
+.dragY {
 	position: absolute;
+	top: 0;
+	right: 0px;
+	width: 10px;
+	background: #000;
+}
+
+.dragConX {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	height: 10px;
+}
+
+.dragX {
+	position: absolute;
+	left: 0;
 	top: 0px;
-	right: 5px;
-	width: 10px;
+	height: 20px;
 	background: #000;
 }
 
-/* Getting ready for horizontal support */
-
-.scrollElement.yDragCon {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	width: 20px;
-}
-
-.scrollElement.yDrag {
-	position: absolute;
-	top: 0;
-	right: 5px;
-	width: 10px;
-	background: #000;
-}
-
-.scrollElement.xDragCon {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	height: 10px;
-}
-
-.scrollElement.xDrag {
-	position: absolute;
-	left: 0;
-	top: 5px;
-	height: 10px;
-	background: #000;
+body.scrollingActive {
+	cursor: default;
 }

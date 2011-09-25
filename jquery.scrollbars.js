@@ -1,283 +1,405 @@
 (function($) {
 	var methods = {
 		init: function() {
-			// Create a reference to this
+			// Create reference to this
 			ele = this;
 
-			// Test if we need to use our plugin
+			// Test if we need our plugin or not
 			overflow = this.css('overflow');
+			overflowX = this.css('overflow-x');
 			overflowY = this.css('overflow-y');
-			if (overflow != 'auto' && overflowY != 'scroll' && overflowY != 'auto' && overflowY != 'scroll') return;
 
-			// Wait until we are finished
+			need = overflow == 'auto' || overflow == 'scroll';
+			need = need || overflowX == 'auto' || overflowX == 'scroll';
+			need = need || overflowY == 'auto' || overflowY == 'scroll';
 
+			if (!need) {
+				return;
+			}
+
+			// Wait until all child images have loaded
 			allImgs = this.find('img');
 			allImgsLength = allImgs.length;
 			allImgsLoaded = 0;
 
 			if (allImgsLength == 0) {
-				methods.prepare.call(this);
+				methods.prepare.call(ele);
 			} else {
-				imgs = {};
-				$(allImgs).each(function() {
+				allImgs.each(function() {
 					image = new Image;
+
 					$(image)
 						.data('ele', ele)
-						.data('data', [allImgsLength, allImgsLoaded])
+						.data('imgs', [allImgsLength, allImgsLoaded])
 						.bind('load', function() {
-							data = $(this).data('data');
+							imgs = $(this).data('imgs');
 
-							data[1]++;
+							imgs[1]++;
 
-							if (data[1] == data[0]) {
+							if (imgs[1] == imgs[0]) {
 								methods.prepare.call($(this).data('ele'));
 							}
 
-							$(this).data('data', data);
+							$(this).data('imgs', imgs);
 						});
 					
 					image.src = this.src;
-				})
+				});
 			}
 		},
 		prepare: function() {
-			// Create reference to this
+			// Create a reference to this
 			ele = this;
 
 			// Make sure we don't have position static
-			if (this.css('position') === 'static') this.css('position', 'relative');
+			if (this.css('position') == 'static') {
+				this.css('position', 'relative');
+			}
 
-			// Lock size
-			this.css({
-				height: this.height(),
-				width: this.width()
-			});
+			// Remove OS scrollbars
+			this.css('overflow', 'hidden');
 
-			// Apply overflow hidden (remove scrollbars)
-			this.css({
-				overflow: 'hidden'
-			});
+			// Generate a uniq id tag for every element we use
+			id = 'scroll-' + Math.floor(Math.random() * 100000);
 
-			// Generate a unique id for every element generated
-			id = 'scroll-' + Math.floor(Math.random() * 10000);
+			// Retrieve option values for space to reserve for scrollbars
+			yPadding = this.data('opts')['yPadding'];
+			xPadding = this.data('opts')['xPadding'];
 
-			// Call generate function
-			need = methods.generate.apply(this, Array(id));
-
-			if (!need) { return false; }
-
-			// Add our event listeners
-			methods.addEvents.apply(this);
-		},
-		generate: function(id) {
-
-			rightPadding = this.data('opts')['rightPadding'];
-
+			// Give the class scrollRoot to our root element
 			this.addClass('scrollRoot').addClass(id);
-			// Create a root wrap to make space for scrollbars
+
+			// Create the wrap that gives space to our scrollbars
 			rootWrap = $(document.createElement('div'));
 			rootWrap
 				.addClass(id)
-				.addClass('scrollElement')
 				.addClass('rootWrap')
 				.html(this.html())
 				.css({
-					height: this.height(),
-					width: this.width() - rightPadding
+					height: this.height() - xPadding,
+					width: this.width() - yPadding
 				});
-
-			// Create a content wrap for various calculations and manipulations
+			
+			// Create a content wrap for various manipulations and calculations
 			contentWrap = $(document.createElement('div'));
 			contentWrap
 				.addClass(id)
-				.addClass('scrollElement')
 				.addClass('contentWrap')
-				.html(rootWrap.html());
-			
-			this.html('').append(rootWrap);
-			rootWrap.html('').append(contentWrap);
-
-			// Check if we need these scrollbars
-			if (rootWrap.height() > contentWrap.height()) {
-				methods.uninit.call(this);
-				return false;
-			}
-
-			// Create a container for the dragger
-			dragCon = $(document.createElement('div'));
-			dragCon
-				.addClass(id)
-				.addClass('scrollElement')
-				.addClass('dragCon');
-			
-			this.append(dragCon);
-
-			// Work out a ratio
-			ratio = dragCon.height() / contentWrap.height();
-			dragHeight = this.data('opts')['draggerheight'];
-			dragHeight = dragHeight == 'auto' ? +(rootWrap.height() * ratio) : dragHeight;
-			dragHeight = dragHeight < 10 ? 10 : dragHeight;
-			dragHeight = dragHeight > dragCon.height() ? dragCon.height() - 10 : dragHeight;
-
-			// Create our dragger
-			drag = $(document.createElement('div'));
-			drag
-				.addClass(id)
-				.addClass('scrollElement')
-				.addClass('drag')
+				.html(rootWrap.html())
 				.css({
-					height: dragHeight
-				})
-				.data('id', id)
-				.data('ratio', ratio);
-			
-			// Auto hide option
-			if (this.data('opts')['autohide']) {
-				drag.fadeTo(0, 0);
+					float: 'left',
+					padding: 0
+				});
+	
+
+			// Add our wraps to the DOM
+			rootWrap.html('').append(contentWrap);
+			this.html('').append(rootWrap);
+
+			contentWrap.height(contentWrap.height() - 5);
+
+			// Check if we actually need these scrollbars
+			if (rootWrap.height() > contentWrap.height() && rootWrap.width() > contentWrap.width()) {
+				this.html(contentWrap.html());
 			}
 
-			dragCon.append(drag);
-			return true;
+			// Generate Y scrollbar
+			methods.generate.call(this, id, 'Y');
+
+			// Generate X scrollbars
+			methods.generate.call(this, id, 'X');
+
+			// Add events for Y scrollbars
+			methods.addEvents.call(this, id, 'Y');
+
+			// Add events for X scrollbars
+			methods.addEvents.call(this, id, 'X');
 		},
-		addEvents: function() {
-			mousewheel = this.data('opts')['mousewheel'];
-			cursor = this.data('opts')['mousedragcursor'];
-
-			drag = this.find('.drag');
-			contentWrap = this.find('.contentWrap');
-
-			drag.mousedown(function(event) {
-				$(this).data('move', event.pageY);
-				$('body').css({
-					'cursor': 'default'
-				});
-				event.preventDefault();
-			});
-
-			if (this.data('opts')['mousedrag']) {
-				this.mousedown(function(event) {
-					drag = $(this).find('.drag');
-					drag.data('move', event.pageY);
-					drag.data('multiply', '-1');
-					$('body').css({
-						'cursor': cursor
-					})
-					event.preventDefault();
-				}).hover(function() {
-					$(this).css({
-						'cursor': cursor
-					})
-				}, function() {
-					$(this).css({
-						'cursor': 'auto'
-					});
-				});
-			}
-
-			$('*').mouseup(function(event) {
-				$('.scrollElement.drag').data('move', false);
-				$('body').css({
-					cursor: 'auto'
-				});
-			}).mousemove(function(event) {
-				$('.scrollElement.drag').each(function() {
-					if (!$(this).data('move')) return;
-					offset = event.pageY - $(this).data('move');
-					$(this).data('move', event.pageY);
-
-					if ($(this).data('multiply')) {
-						offset = offset * parseFloat($(this).data('multiply'));
-					}
-
-					methods.move.call($('.scrollRoot.' + $(this).data('id')), offset);
-				});
-			});
-			if ($().mousewheel && mousewheel) {
-				this.mousewheel(function(event, delta) {
-					methods.move.call($(this), -(delta*1.5));
-				});
-			}
-
-			if (this.data('opts')['clicktoscroll']) {
-				this.find('.dragCon').click(function(event) {
-					srcElement = $(event.srcElement);
-					pageY = event.pageY;
-					drag = $(this).find('.drag');
-					ele = $('.scrollRoot.' + drag.data('id'));
-
-					if (srcElement.hasClass('drag')) {
-						return false;
-					}
-
-					offset = event.pageY;
-					offset = offset - (drag.height() / 2);
-					offset = offset - drag.offset().top;
-
-					methods.move.call(ele, offset);
-					event.preventDefault();
-					return false;
-				})
-			}
-
-			if (this.data('opts')['autohide']) {
-				this.hover(function() {
-					drag = $(this).find('.drag');
-					drag.fadeTo(400, 1);
-				}, function() {
-					drag = $(this).find('.drag');
-					drag.fadeTo(400, 0);
-				})
-			}
-		},
-		move: function(offset) {
-			drag = this.find('.drag');
+		generate: function(id, axis) {
 			contentWrap = this.find('.contentWrap');
 			rootWrap = this.find('.rootWrap');
 
-			current = drag.css('top');
-			current = current == 'auto' ? 0 : parseFloat(current);
 
-			distance = current + offset;
+			dragCon = $(document.createElement('div'));
+			dragCon
+				.addClass(id)
+				.addClass('dragCon' + axis);
+			
+			this.append(dragCon);
 
-			min = 0;
-			max = drag.parent().height() - drag.height();
+			if (axis == 'Y') {
+				// Double check if we need scrollbars on this axis
+				yPadding = this.data('opts')['yPadding'];
+				if ((rootWrap.height() + yPadding) > contentWrap.height()) {
+					rootWrap.css({
+						height: rootWrap.height() + yPadding
+					});
+					return false;
+				}
 
-			if (distance < min) distance = min;
-			if (distance > max) distance = max;
+				// Calculate dragSize
+				ratio = dragCon.height() / contentWrap.height();
+				dragSize = this.data('opts')['draggerheight'];
+				dragSize = dragSize == 'auto' ? +(rootWrap.height() * ratio) : dragSize;
+				dragSize = dragSize < 10 ? 10 : dragSize;
+				dragSize = dragSize > dragCon.height() ? dragCon.height() - 10 : dragSize;
+			} else {
+				// Double check if we need scrollbars on this axis
+				xPadding = this.data('opts')['xPadding'];
+				if ((rootWrap.width() + xPadding) > contentWrap.width()) {
+					rootWrap.css({
+						height: rootWrap.width() + xPadding
+					});
+					return false;
+				}
 
-			drag.css({
-				'top': distance
-			});
+				// Calculate dragSize
+				ratio = dragCon.width() / contentWrap.width();
+				dragSize = this.data('opts')['draggerwidth'];
+				dragSize = dragSize == 'auto' ? +(rootWrap.width() * ratio) : dragSize;
+				dragSize = dragSize < 10 ? 10 : dragSize;
+				dragSize = dragSize > dragCon.width() ? dragCon.width() - 10 : dragSize;
+			}
 
-			trackDistance = drag.parent().height() - drag.height();
-			notVisible = contentWrap.height() - rootWrap.height();
-			distanceRatio = notVisible / trackDistance
+			// Create the dragger
+			drag = $(document.createElement('div'));
+			drag
+				.addClass(id)
+				.addClass('drag' + axis)
+				.addClass('drag');
+			
+			// Set our dragger size
+			if (axis == 'Y') {
+				drag.css({
+					height: dragSize
+				});
+			} else {
+				drag.css({
+					width: dragSize
+				});
+			}
 
-			distance = (distance * distanceRatio) * -1;
+			// Give id to drag
+			drag.data('id', id);
 
-			contentWrap.css({
-				top: distance
-			});
+			// Append to dragCon
+			dragCon.append(drag);
+
+			// Auto hide option - Hide initially
+			if (this.data('opts')['autohide']) {
+				drag.fadeTo(0, 0);
+			}
+			return true;
 		},
-		uninit: function() {
-			this.html(this.find('.rootWrap').html());
+		addEvents: function(id, axis) {
+			ele = this;
+			drag = this.find('.drag' + axis);
+
+			dragCon = drag.parent();
+
+			rootWrap = this.find('.rootWrap');
+			contentWrap = this.find('.contentWrap');
+
+			drag.mousedown(function(event) {
+				if (axis == 'Y') {
+					$(this).data('move', event.pageY);
+				} else {
+					$(this).data('move', event.pageX);
+				}
+				$('body').addClass('scrollingActive');
+				event.preventDefault();
+				return false;
+			});
+
+			$('*').mouseup(function(event) {
+				$('.drag' + axis).data('move', false)
+				$('body').removeClass('scrollingActive');;
+			}).mousemove(function(event) {
+				$('.drag' + axis).each(function() {
+					if ($(this).data('move')) {
+						ele = $('.scrollRoot.' + $(this).data('id'));
+						if (axis == 'Y') {
+							methods.move.call(ele, event.pageY - $(this).data('move'), axis);
+							$(this).data('move', event.pageY);
+						} else {
+							methods.move.call(ele, event.pageX - $(this).data('move'), axis);
+							$(this).data('move', event.pageX);
+						}
+						event.preventDefault();
+					}
+				});
+			});
+
+			// Mousewheel support
+			if ($().mousewheel) {
+				this.mousewheel(function(event, delta) {
+					methods.move.call($(this), -delta * 1.5, 'Y');
+					event.preventDefault();
+				});
+			}
+
+			// Mousedrag support
+			if (this.data('opts')['mousedrag']) {
+				this.find('.rootWrap').css({
+					cursor: this.data('opts')['mousedragcursor']
+				}).mousedown(function(event) {
+					$(this).data('move', [event.pageX, event.pageY]);
+					return false;
+				});
+
+				$('*').mousemove(function(event) {
+					$('.rootWrap').each(function() {
+						if ($(this).data('move')) {
+							x = $(this).data('move')[0];
+							y = $(this).data('move')[1];
+
+							dX = event.pageX - x;
+							dY = event.pageY - y;
+
+							$(this).data('move', [event.pageX, event.pageY]);
+
+							methods.move.call($(this).parent(), -dX, 'X');
+							methods.move.call($(this).parent(), -dY, 'Y');
+							event.preventDefault();
+						}
+					}).mouseup(function(event) {
+						$('.rootWrap').each(function() {
+							$(this).data('move', false);
+						});
+					});
+				});
+
+				$(window).mouseout(function(event) {
+					$('.rootWrap').each(function() {
+						$(this).data('move', false);
+					});
+				})
+			}
+
+			// clicktoscroll support
+
+			if (this.data('opts')['clicktoscroll']) {
+				dragCon.data('axis', axis).click(function(event) {
+					axis = $(this).data('axis');
+
+					srcElement = $(event.srcElement);
+					drag = $(this).children().eq(0);
+					ele = $('.scrollRoot.' + drag.data('id'));
+
+					if (srcElement.hasClass('drag' + axis)) {
+						return;
+					}
+
+					if (axis == 'Y') {
+						offset = event.pageY;
+						offset = offset - (drag.height() / 2);
+						offset = offset - drag.offset().top;
+					} else {
+						offset = event.pageX;
+						offset = offset - (drag.width() / 2);
+						offset = offset - drag.offset().left;
+					}
+
+					methods.move.call(ele, offset, axis);
+					event.preventDefault();
+
+				});
+			}
+
+			// autohide support
+			if (this.data('opts')['autohide']) {
+				this.hover(function() {
+					$(this).find('.drag').fadeTo(400, 1);
+					
+				}, function() {
+					$(this).find('.drag').fadeTo(400, 0);
+				});
+			}
+		},
+		move: function(offset, axis) {
+			drag = this.find('.drag' + axis);
+			dragCon = drag.parent();
+
+			rootWrap = this.find('.rootWrap');
+			contentWrap = this.find('.contentWrap');
+
+			if (axis == 'Y') {
+				current = drag.css('top');
+				current = current == 'auto' ? 0 : parseFloat(current);
+
+				distance = current + offset;
+
+				min = 0;
+
+				max = dragCon.height() - drag.height();
+				if (distance < min) distance = min;
+				if (distance > max) distance = max;
+
+				drag.css({
+					top: distance
+				});
+
+				trackDistance = dragCon.height() - drag.height();
+				notVisible = (contentWrap.height() - rootWrap.parent().height());
+				distanceRatio = notVisible / trackDistance;
+
+				distance = (distance * distanceRatio) * -1;
+
+				contentWrap.css({
+					top: distance
+				});
+
+			} else {
+				current = drag.css('left');
+
+				current = current == 'auto' ? 0 : parseFloat(current);
+
+				distance = current + offset;
+
+				min = 0;
+				max = dragCon.width() - drag.width();
+
+				if (distance < min) distance = min;
+				if (distance > max) distance = max;
+
+				drag.css({
+					left: distance
+				});
+
+				trackDistance = dragCon.width() - drag.width();
+				notVisible = (contentWrap.width() - rootWrap.parent().width());
+				distanceRatio = notVisible / trackDistance;
+
+				distance = (distance * distanceRatio) * -1;
+
+				contentWrap.css({
+					left: distance
+				});
+
+			}
+
 		}
 	}
-	$.fn.scrollbars = function(options) {
-		var opts = $.fn.extend($.fn.scrollbars.defaults, options);
+
+	$.fn.scrollbars = function(opts) {
+		var options = $.fn.extend($.fn.scrollbars.defaults, opts);
 		return this.each(function() {
-			$(this).data('opts', opts);
-			methods.init.apply($(this), arguments);
+			$(this).data('opts', options);
+			methods.init.call($(this));
 		});
 	}
 
 	$.fn.scrollbars.defaults = {
-		'rightPadding': 20,
+		'yPadding': 20,
+		'xPadding': 20,
 		'mousewheel': true,
 		'mousedrag': false,
 		'mousedragcursor': 'move',
 		'clicktoscroll': true,
 		'draggerheight': 'auto',
+		'draggerwidth': 'auto',
 		'autohide': false
 	}
+
+	$.fn.scrollbars.methods = methods;
 })(jQuery);

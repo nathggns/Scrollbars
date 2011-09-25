@@ -5,12 +5,11 @@
 	<title>jQuery.scrollbars.js</title>
 	<style type="text/css">
 	@import url(jquery.scrollbars.css);
-	@import url(lion.theme.css);
+	/*@import url(lion.theme.css);*/
 	#div-1, #div-2 {
 		width: 300px;
 		height: 180px;
-		overflow-y: scroll;
-		overflow-x: hidden;
+		overflow: scroll;
 		float: left;
 		margin-right: 30px;
 	}
