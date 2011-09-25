@@ -200,9 +200,14 @@
 
 			if (this.data('opts')['clicktoscroll']) {
 				this.find('.dragCon').click(function(event) {
+					srcElement = $(event.srcElement);
 					pageY = event.pageY;
 					drag = $(this).find('.drag');
 					ele = $('.scrollRoot.' + drag.data('id'));
+
+					if (srcElement.hasClass('drag')) {
+						return false;
+					}
 
 					offset = event.pageY;
 					offset = offset - (drag.height() / 2);
