@@ -97,8 +97,6 @@
 			rootWrap.html('').append(contentWrap);
 			this.html('').append(rootWrap);
 
-			contentWrap.height(contentWrap.height() - 5);
-
 			// Check if we actually need these scrollbars
 			if (rootWrap.height() > contentWrap.height() && rootWrap.width() > contentWrap.width()) {
 				this.html(contentWrap.html());
@@ -152,6 +150,8 @@
 						height: rootWrap.width() + xPadding
 					});
 					return false;
+				} else {
+					contentWrap.height(contentWrap.height() - 5);
 				}
 
 				// Calculate dragSize
