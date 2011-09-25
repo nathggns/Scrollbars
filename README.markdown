@@ -124,3 +124,14 @@ $('*').scrollbars({
 **Lion Theme (overlay)**
 
 [![lion theme (overlay)](http://s.nath.is/24_09_11_18_48_47.png)](http://s.nath.is/24_09_11_18_48_47.png)
+
+# How to write a theme.
+
+It's easy to write a theme for this thing, you just need to write a CSS file, and override a couple of classes. Here is a list of what classes are what
+
+ - .dragConY - The Y axis drag container
+ - .dragConX - The X axis drag container
+ - .dragY    - The Y axis dragger
+ - .dragX    - The X axis dragger
+
+If you need anymore help, just look at the lion theme.
