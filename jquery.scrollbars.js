@@ -237,7 +237,7 @@
 					if (deltaX == 0) {
 						methods.move.call($(this), -deltaY * 1.5, 'Y');
 					} else {
-						methods.move.call($(this), deltaX * 1.5, 'X');
+						methods.move.call($(this), deltaX * 2, 'X');
 					}
 					event.preventDefault();
 				});
