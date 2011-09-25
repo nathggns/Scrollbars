@@ -68,14 +68,6 @@ If you pass an array to the plugin, we can change certain things, such as:
   - Default: false
   - Use: Enable/Disable autohiding of the dragger
 
-**Will you ever get horizontal support?**
-
-Yes, first we are trying to master vertical support before we do anything with horizontal.
-
-**Will you give us a minified version?**
-
-Yes, when we come out of beta.
-
 # Examples.
 
 ```javascript

@@ -87,7 +87,7 @@
 				.addClass('contentWrap')
 				.html(rootWrap.html())
 				.css({
-					float: 'left',
+					'float': 'left',
 					padding: 0
 				});
 	
@@ -212,8 +212,8 @@
 			});
 
 			$('*').mouseup(function(event) {
-				$('.drag' + axis).data('move', false)
-				$('body').removeClass('scrollingActive');;
+				$('.drag' + axis).data('move', false);
+				$('body').removeClass('scrollingActive');
 			}).mousemove(function(event) {
 				$('.drag' + axis).each(function() {
 					if ($(this).data('move')) {
@@ -273,7 +273,7 @@
 					$('.rootWrap').each(function() {
 						$(this).data('move', false);
 					});
-				})
+				});
 			}
 
 			// clicktoscroll support
@@ -379,7 +379,7 @@
 			}
 
 		}
-	}
+	};
 
 	$.fn.scrollbars = function(opts) {
 		var options = $.fn.extend($.fn.scrollbars.defaults, opts);
@@ -387,7 +387,7 @@
 			$(this).data('opts', options);
 			methods.init.call($(this));
 		});
-	}
+	};
 
 	$.fn.scrollbars.defaults = {
 		'yPadding': 20,
@@ -399,7 +399,7 @@
 		'draggerheight': 'auto',
 		'draggerwidth': 'auto',
 		'autohide': false
-	}
+	};
 
 	$.fn.scrollbars.methods = methods;
 })(jQuery);
