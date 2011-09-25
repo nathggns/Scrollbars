@@ -1,4 +1,7 @@
 .dragY {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
 	border-radius: 10px;
 	background: #777;
 	background: rgba(0, 0, 0, 0.5);
