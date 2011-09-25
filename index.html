@@ -6,11 +6,10 @@
 	<link rel="stylesheet" href="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.css" />
 	<link rel="stylesheet" href="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/lion.theme.css" />
 	<style type="text/css">
-	#div-1, #div-2 {
+	.scroll {
 		width: 300px;
 		height: 180px;
 		overflow: scroll;
-		float: left;
 		margin-right: 30px;
 	}
 	body {
@@ -22,7 +21,7 @@
 	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.min.js"></script>
 	<script>
 	$(document).ready(function() {
-		$('*').scrollbars();
+		$('.normal').scrollbars({ yPadding: 20});
 	});
 	</script>
 </head>
@@ -34,11 +33,15 @@
 		<li><a href="https://github.com/nathggns/Scrollbars/zipball/master">Zip</a></li>
 		<li><a href="https://github.com/nathggns/Scrollbars/tarball/master">Tar.gz</a></li>
 	</ul>
+	<h1>Documentation</h1>
+	<p>For documentation and source code, check out the <a href="http://github.com/nathggns/Scrollbars">github repo</a>.</p>
 	<h1>Demo</h1>
-	<div id="div-1">
+	<h3>Default - Note draggers always overlay imgs</h3>
+	<div class="scroll normal">
 		<img src="http://www.getthebigpicture.net/storage/jbaldwin/hawaii8.jpg?__SQUARESPACE_CACHEVERSION=1304222222297" />
 	</div>
-	<div id="div-2">
+	<h3>Default</h3>
+	<div class="scroll normal">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -51,8 +54,5 @@
 		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 	</div>
-	<div style="width:100%;height:1px;clear:both;">&nbsp;</div>
-	<h1>Documentation</h1>
-	<p>For documentation and source code, check out the <a href="http://github.com/nathggns/Scrollbars">github repo</a>.</p>
 </body>
 </html>
