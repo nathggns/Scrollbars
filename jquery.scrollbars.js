@@ -1,3 +1,4 @@
+/*! jQuery Scrollbars | License: https://github.com/nathggns/Scrollbars/blob/master/LICENSE */
 (function($) {
 	var methods = {
 		init: function() {
