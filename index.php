@@ -4,8 +4,6 @@
 	<meta charset="UTF-8">
 	<title>jQuery.scrollbars.js</title>
 	<style type="text/css">
-	@import url(jquery.scrollbars.css);
-	/*@import url(lion.theme.css);*/
 	#div-1, #div-2 {
 		width: 300px;
 		height: 180px;
@@ -14,6 +12,8 @@
 		margin-right: 30px;
 	}
 	</style>
+	<link rel="stylesheet" href="jquery.scrollbars.css" type="text/css">
+	<link rel="stylesheet" href="lion.theme.css" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="jquery.mousewheel.js"></script>
 	<script type="text/javascript" src="jquery.scrollbars.min.js"></script>
