@@ -2,6 +2,10 @@
 
 Scrollbars is an easy to use, jQuery plugin which enables you to create themeable scrollbars.
 
+# Demo
+
+Check out the [github page](http://nathggns.github.com/Scrollbars) for demos and more!
+
 # Usage
 
 **Notice:** ALWAYS put the css before the javascript!!!!
