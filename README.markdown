@@ -48,7 +48,7 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **xPadding**:
   - Default: 20
   - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
-  - **yPadding**:
+- **yPadding**:
   - Default: 20
   - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
  - **mousewheel**:
