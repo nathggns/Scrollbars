@@ -102,6 +102,10 @@
 				this.html(contentWrap.html());
 			}
 
+			this.find('img').each(function() {
+				console.log($(this).width());
+			})
+
 			// Generate Y scrollbar
 			methods.generate.call(this, id, 'Y');
 

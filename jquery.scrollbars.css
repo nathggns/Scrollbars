@@ -6,6 +6,10 @@
 	position: relative;
 }
 
+.rootWrap {
+	overflow: hidden;
+}
+
 .dragConY {
 	position: absolute;
 	top: 0;
