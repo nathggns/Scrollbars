@@ -45,7 +45,10 @@ Yes, Scrollbars will just turn off mousewheel support if it is absent.
 
 If you pass an array to the plugin, we can change certain things, such as:
 
- - **rightPadding**:
+ - **xPadding**:
+  - Default: 20
+  - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
+  - **yPadding**:
   - Default: 20
   - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
  - **mousewheel**:
@@ -64,7 +67,7 @@ If you pass an array to the plugin, we can change certain things, such as:
   - Default: auto
   - Use: Height of the dragger.
   - Min: 10
- - **autihide**:
+ - **autohide**:
   - Default: false
   - Use: Enable/Disable autohiding of the dragger
 
@@ -76,7 +79,8 @@ $('*').scrollbars();
 
 // Overlay scrollbars
 $('*').scrollbars({
-	rightPadding: 0
+	xPadding:0,
+  yPadding:0
 });
 
 // Disable mousewheel support
