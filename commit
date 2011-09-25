@@ -1,8 +1,0 @@
-#! /c/python27/python
-
-from subprocess import call
-from sys import argv
-
-call(['git', 'add', '.', '-A'])
-call(['git', 'commit', '-m', ' '.join(argv[1:])])
-call(['git', 'push', 'origin', 'master'])
