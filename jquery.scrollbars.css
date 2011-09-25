@@ -4,16 +4,21 @@
 
 .contentWrap {
 	position: relative;
+	float: left;
 }
 
-.rootWrap {
-	overflow: hidden;
+.drag {
+	cursor: default !important;
+}
+
+.rootWrap, .scrollRoot {
+	overflow: hidden !important;
 }
 
 .dragConY {
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: 0px;
 	bottom:0px;
 	width: 10px;
 }
@@ -37,8 +42,7 @@
 .dragX {
 	position: absolute;
 	left: 0;
-	top: 0px;
-	height: 20px;
+	height: 10px;
 	background: #000;
 }
 

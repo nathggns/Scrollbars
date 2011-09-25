@@ -1,27 +1,34 @@
 .dragY {
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	border-radius: 10px;
 	background: #777;
 	background: rgba(0, 0, 0, 0.5);
-}
-
-.dragConY {
-	top: 10px;
-	bottom: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	width: 10px;
 	right: 5px;
-}
-
-.dragConX {
-	left: 10px;
-	right: 10px;
-	bottom: 5px;
+	width: 10px;
 }
 
 .dragX {
-	border-radius: 10px;
 	background: #777;
 	background: rgba(0, 0, 0, 0.5);
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 	height: 10px;
+	top: 5px;
+}
+
+.dragConY {
+	width: 0px;
+	top: 5px;
+	bottom: 5px;
+}
+
+.dragConX {
+	height: 0px;
+	left: 5px;
+	right: 5px;
+	overflow: visible;
+	bottom: 20px;
 }
