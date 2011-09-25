@@ -12,7 +12,7 @@
 		margin-right: 30px;
 	}
 	</style>
-	<link rel="stylesheet" href="jquery.scrollbars.css" type="text/css">
+	<link rel="stylesheet" href="jquery.scrollbars.min.css" type="text/css">
 	<link rel="stylesheet" href="lion.theme.css" type="text/css">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="jquery.mousewheel.js"></script>
