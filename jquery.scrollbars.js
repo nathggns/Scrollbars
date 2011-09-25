@@ -232,8 +232,12 @@
 
 			// Mousewheel support
 			if ($().mousewheel) {
-				this.mousewheel(function(event, delta) {
-					methods.move.call($(this), -delta * 1.5, 'Y');
+				this.mousewheel(function(event, delta, deltaX, deltaY) {
+					if (deltaX == 0) {
+						methods.move.call($(this), -deltaY * 1.5, 'Y');
+					} else {
+						methods.move.call($(this), deltaX * 1.5, 'X');
+					}
 					event.preventDefault();
 				});
 			}
