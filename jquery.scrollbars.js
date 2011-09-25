@@ -11,7 +11,8 @@
 			'clicktoscroll': true,
 			'draggerheight': 'auto',
 			'draggerwidth': 'auto',
-			'autohide': false
+			'autohide': false,
+			'naturalscrolling': false
 		}
 
 		this.init = function(options) {
@@ -263,9 +264,17 @@
 					if ($().mousewheel && data[this].opts.mousewheel) {
 						this.mousewheel(function(event, delta, deltaX, deltaY) {
 							if (deltaY == 0) {
-								methods.move.call($(this), deltaX*3, 'X');
+								if (data[$(this)].opts.naturalscrolling) {
+									methods.move.call($(this), deltaX*-3, 'X');
+								} else {
+									methods.move.call($(this), deltaX*3, 'X');
+								}
 							} else {
-								methods.move.call($(this), -deltaY, 'Y');
+								if (data[$(this)].opts.naturalscrolling) {
+									methods.move.call($(this), deltaY, 'Y');
+								} else {
+									methods.move.call($(this), -deltaY, 'Y');
+								}
 							}
 						});
 					}

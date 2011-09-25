@@ -74,6 +74,9 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **autohide**:
   - Default: false
   - Use: Enable/Disable autohiding of the dragger
+ - **naturalscrolling**:
+  - Default: false
+  - Use: Mimic OS X Lion natural scrolling
 
 # Examples.
 
