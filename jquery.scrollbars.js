@@ -276,6 +276,7 @@
 									methods.move.call($(this), -deltaY, 'Y');
 								}
 							}
+							return false;
 						});
 					}
 
