@@ -29,7 +29,19 @@
 		border-bottom-color: #333;
 	}
 	body {
-		font-family: Arial;
+		font-family: 'Helvetica Neue', Arial;
+		background: #fafafa;
+		color: #555;
+		text-shadow: 0px 1px 0px #fff;
+	}
+
+	p {
+		line-height: 120%;
+		color: #333;
+	}
+
+	p strong {
+		color: #555;
 	}
 	</style>
 	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.js"></script>
@@ -45,14 +57,20 @@
 		downloads = $('#download').next();
 		$.each(versions, function(i, version) {
 			con = $(document.createElement('li'));
-			title = $(document.createElement('b'));
+			if (i > 0) {
+				a = $(document.createElement('a'));
+				a.attr('href', 'download.html');
+				a.html('More Versions...');
+				con.append(a);
+				downloads.append(con);
+				return;
+			}
+			title = $(document.createElement('strong'));
 			name = "Version " + version.name.substr(1);
 			title.html(name);
 			con.append(title);
 
 			links = $(document.createElement('ul'));
-
-			console.log(version);
 
 			if (version.change_url !== undefined) {
 				changeC = $(document.createElement('li'));
@@ -93,7 +111,7 @@
 		<li><a href="#demo">Demo</a></li>
 	</ul>
 	<h1 id="desc">Description</h1>
-	<p><strong>jQuery Scrollbars</strong> is an extremely simple script allowing you, the developer, to theme scrollbars. It will work in almost any situation, and at just <strong>~7kb</strong> minified it will add next to no load time to your page.</p>
+	<p><strong>jQuery Scrollbars</strong> is an extremely simple script allowing you, the developer, to theme scrollbars. It will work in almost any situation, and at just <strong>~<script>document.write(getSize());</script>kb</strong> minified it will add next to no load time to your page.</p>
 	<h1 id="download">Download</h1>
 	<ul>
 		<li>
