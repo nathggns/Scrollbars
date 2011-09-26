@@ -2,7 +2,7 @@
 (function($) {
 	function Scroller() {
 		var data = {}
-		var defaults =  {
+		var defaults = {
 			'yPadding': 'auto',
 			'xPadding': 'auto',
 			'mousewheel': true,
@@ -13,7 +13,8 @@
 			'draggerwidth': 'auto',
 			'autohide': false,
 			'naturalscrolling': false,
-			'touch': true
+			'touch': true,
+			'blackberry': true
 		}
 
 		this.init = function(options) {
