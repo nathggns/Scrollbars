@@ -265,7 +265,7 @@
 					if ($().mousewheel && data[this].opts.mousewheel) {
 						this.mousewheel(function(event, delta, deltaX, deltaY) {
 							if (axis == 'X') {
-								methods.move.call($(this), deltaX*30, axis);
+								methods.move.call($(this), deltaX*10, axis);
 							} else {
 								methods.move.call($(this), -deltaY, axis);
 							}
