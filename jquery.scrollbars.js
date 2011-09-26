@@ -264,10 +264,10 @@
 					// Mousewheel support
 					if ($().mousewheel && data[this].opts.mousewheel) {
 						this.mousewheel(function(event, delta, deltaX, deltaY) {
-							if (deltaY == 0) {
-								methods.move.call($(this), deltaX*3, 'X');
+							if (axis == 'X') {
+								methods.move.call($(this), deltaX*30, axis);
 							} else {
-								methods.move.call($(this), -deltaY, 'Y');
+								methods.move.call($(this), -deltaY, axis);
 							}
 							return false;
 						});
