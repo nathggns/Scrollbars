@@ -18,11 +18,11 @@ Include a theme if you would like. You can also write your own
 
   <link href="lion.theme.min.css" rel="stylesheet" type="text/css" />
 
-Then add in jQuery
+Then add in [jQuery](http://jquery.com)
 
 	<script type="text/javascript" src="jquery.js"></script>
 
-Include jQuery Mousewheel if you want mousewheel support
+Include [jQuery Mousewheel](http://plugins.jquery.com/project/mousewheel) if you want mousewheel support
 
 	<script type="text/javascript" src="jquery.mousewheel.js"></script>
 
