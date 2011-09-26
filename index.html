@@ -35,9 +35,51 @@
 	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.js"></script>
 	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.mousewheel.js"></script>
 	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.min.js"></script>
+	<script src="http://nath.is/getGitTags.php" type="text/javascript"></script>
 	<script>
 	$(document).ready(function() {
 		$('.normal').scrollbars({ yPadding: 20, xPadding: 20});
+
+		var versions = $.parseJSON(getVersions());
+		console.log(versions);
+		downloads = $('#download').next();
+		$.each(versions, function(i, version) {
+			con = $(document.createElement('li'));
+			title = $(document.createElement('b'));
+			name = "Version " + version.name.substr(1);
+			title.html(name);
+			con.append(title);
+
+			links = $(document.createElement('ul'));
+
+			console.log(version);
+
+			if (version.change_url !== undefined) {
+				changeC = $(document.createElement('li'));
+				changeA = $(document.createElement('a'));
+				changeA.attr('href', version.change_url);
+				changeA.html('Changelog');
+				changeC.append(changeA);
+				links.append(changeC);
+			}
+
+			zipC = $(document.createElement('li'));
+			zipA = $(document.createElement('a'));
+			zipA.attr('href', version.zipball_url);
+			zipA.html('Zip');
+			zipC.append(zipA);
+			links.append(zipC);
+
+			tarC = $(document.createElement('li'));
+			tarA = $(document.createElement('a'));
+			tarA.attr('href', version.tarball_url);
+			tarA.html('Tarball');
+			tarC.append(tarA);
+			links.append(tarC);
+
+			con.append(links);
+			downloads.append(con);
+		});
 	});
 	</script>
 </head>
@@ -58,21 +100,6 @@
 			<ul>
 				<li><a href="https://github.com/nathggns/Scrollbars/zipball/master">Zip</a></li>
 				<li><a href="https://github.com/nathggns/Scrollbars/tarball/master">Tarball</a></li>
-			</ul>
-		</li>
-		<li>
-			<b>Version 0.2b</b>
-			<ul>
-				<li><a href="https://github.com/nathggns/Scrollbars/blob/v0.2b/CHANGELOG.markdown">Changelong</a></li>
-				<li><a href="https://github.com/nathggns/Scrollbars/zipball/v0.2b">Zip</a></li>
-				<li><a href="https://github.com/nathggns/Scrollbars/tarball/v0.2b">Tarball</a>
-			</ul>
-		</li>
-		<li>
-			<b>Version 0.1b</b>
-			<ul>
-				<li><a href="https://github.com/nathggns/Scrollbars/zipball/v0.1b">Zip</a></li>
-				<li><a href="https://github.com/nathggns/Scrollbars/tarball/v0.1b">Tarball</a></li>
 			</ul>
 		</li>
 	</ul>
