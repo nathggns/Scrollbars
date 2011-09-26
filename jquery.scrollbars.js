@@ -282,22 +282,31 @@
 
 					// clicktoscroll support
 					if (data[this].opts.clicktoscroll) {
-						dragCon.click(function(event) {
+						dragCon.mouseup(function(event) {
 							if ($(event.srcElement).hasClass('drag')) return;
-							drag = $(this).find('.drag');
+							if (!$(this).data('mousedown')) return;
+							$(this).data('mousedown', false);
+							var drag = $(this).find('.drag');
 
 							if (axis == 'X') {
-								current = event.pageX;
-								current = current - $(this).offset().left;
+								var current = event.pageX;
 								current = current - drag.offset().left;
 								current = current - (drag.width() / 2);
 								methods.move.call($('.scrollRoot.' + id), current, axis);
 							} else {
-								current = event.pageY;
-								current = current - $(this).offset().top;
+								var current = event.pageY;
 								current = current - drag.offset().top;
+								current = current - (drag.height() / 2);
+								console.log(current);
 								methods.move.call($('.scrollRoot.' + id), current, axis);
 							}
+							event.preventDefault();
+							return false;
+						}).mousedown(function(event) {
+							if ($(event.srcElement).hasClass('drag')) return;
+							$(this).data('mousedown', true);
+							event.preventDefault();
+							return false;
 						});
 					}
 
