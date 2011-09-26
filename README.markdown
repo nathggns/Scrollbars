@@ -45,6 +45,10 @@ Yes, Scrollbars detects if it is needed. The speed difference is unnoticable. Of
 
 Yes, Scrollbars will just turn off mousewheel support if it is absent.
 
+**Does touch support work on all platforms?**
+
+No, touch support is limited to iOS at the current moment.
+
 **What options do we have?**
 
 If you pass an array to the plugin, we can change certain things, such as:
@@ -77,6 +81,9 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **naturalscrolling**:
   - Default: false
   - Use: Mimic OS X Lion natural scrolling
+ - **touch**
+  - Default: true
+  - Use: Enable/Disable touch support
 
 # Examples.
 
@@ -119,6 +126,11 @@ $('*').scrollbars({
 // Enable autohiding of the dragger
 $('*').scrollbars({
   autohide: true
+});
+
+// Disable touch
+$('*').scrollbars({
+  touch: false
 });
 ```
 

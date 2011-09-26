@@ -12,7 +12,8 @@
 			'draggerheight': 'auto',
 			'draggerwidth': 'auto',
 			'autohide': false,
-			'naturalscrolling': false
+			'naturalscrolling': false,
+			'touch': true
 		}
 
 		this.init = function(options) {
@@ -352,12 +353,48 @@
 
 						this.css({cursor:data[this].opts.mousedragcursor});
 					}
+
+					// Touch support
+					if (data[this].opts.touch) {
+						var pure = this.get(0);
+						pure.ontouchstart = function(event) {
+							if (event.targetTouches.length == 1) {
+								$(this).data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
+							} else {
+								$(this).data('start', false);
+							}
+						}
+						pure.ontouchend = function(event) {
+							this.ontouchstart(event);
+						}
+						pure.ontouchmove = function(event) {
+							if ($(this).data('start')) {
+								startX = $(this).data('start')[0];
+								startY = $(this).data('start')[1];
+								newX = event.targetTouches[0].pageX;
+								newY = event.targetTouches[0].pageY;
+
+								difX = newX - startX;
+								difY = newY - startY;
+
+								$(this).data('start', [newX, newY]);
+
+								X = methods.move.call($('.scrollRoot.' + id), -difX, 'X');
+								Y = methods.move.call($('.scrollRoot.' + id), -difY, 'Y');
+
+								if (!X && !Y) {
+									event.preventDefault();
+								}
+							}
+						}
+					}
 				},
 				move: function(offset, axis) {
 					var drag = this.find('.drag' + axis);
 					var dragCon = this.find('.dragCon' + axis);
 					var contentWrap = this.find('.contentWrap');
 					var rootWrap = this.find('.rootWrap');
+					var returnV = false;
 
 					if (axis == 'X') {
 						var current = drag.css('left');
@@ -373,8 +410,14 @@
 					if (axis == 'X') {
 						var max = dragCon.width() - drag.width();
 
-						if (distance < min) distance = min;
-						if (distance > max) distance = max;
+						if (distance < min) {
+							distance = min;
+							returnV = true;
+						}
+						if (distance > max) {
+							distance = max;
+							returnV = true;
+						}
 
 						drag.css({
 							left: distance
@@ -409,7 +452,7 @@
 						contentWrap.css({ top: distance });
 					}
 
-
+					return returnV;
 				}
 			}
 
