@@ -44,16 +44,15 @@
 		color: #555;
 	}
 	</style>
-	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.js"></script>
-	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.mousewheel.js"></script>
-	<script src="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script src="http://brandonaaron.net/javascripts/plugins/mousewheel.js"></script>
+	<script src="https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.min.js"></script>
 	<script src="http://nath.is/getGitTags.php" type="text/javascript"></script>
 	<script>
 	$(document).ready(function() {
 		$('.normal').scrollbars({ yPadding: 20, xPadding: 20});
 
 		var versions = $.parseJSON(getVersions());
-		console.log(versions);
 		downloads = $('#download').next();
 		$.each(versions, function(i, version) {
 			con = $(document.createElement('li'));
