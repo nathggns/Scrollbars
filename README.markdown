@@ -20,11 +20,11 @@ Include a theme if you would like. You can also write your own
 
 Then add in [jQuery](http://jquery.com)
 
-	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 
 Include [jQuery Mousewheel](http://plugins.jquery.com/project/mousewheel) if you want mousewheel support
 
-	<script type="text/javascript" src="jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="http://brandonaaron.net/javascripts/plugins/mousewheel.js"></script>
 
 Then add in Scrollbars
 
