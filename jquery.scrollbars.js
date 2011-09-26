@@ -12,7 +12,6 @@
 			'draggerheight': 'auto',
 			'draggerwidth': 'auto',
 			'autohide': false,
-			'naturalscrolling': false,
 			'touch': true,
 			'blackberry': true
 		}
@@ -266,17 +265,9 @@
 					if ($().mousewheel && data[this].opts.mousewheel) {
 						this.mousewheel(function(event, delta, deltaX, deltaY) {
 							if (deltaY == 0) {
-								if (data[$(this)].opts.naturalscrolling) {
-									methods.move.call($(this), deltaX*-3, 'X');
-								} else {
-									methods.move.call($(this), deltaX*3, 'X');
-								}
+								methods.move.call($(this), deltaX*3, 'X');
 							} else {
-								if (data[$(this)].opts.naturalscrolling) {
-									methods.move.call($(this), deltaY, 'Y');
-								} else {
-									methods.move.call($(this), -deltaY, 'Y');
-								}
+								methods.move.call($(this), -deltaY, 'Y');
 							}
 							return false;
 						});
