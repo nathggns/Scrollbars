@@ -14,6 +14,10 @@ First you have to include the base css files
 
 	<link href="jquery.scrollbars.css" rel="stylesheet" type="text/css" />
 
+Include a theme if you would like. You can also write your own
+
+  <link href="lion.theme.min.css" rel="stylesheet" type="text/css" />
+
 Then add in jQuery
 
 	<script type="text/javascript" src="jquery.js"></script>
