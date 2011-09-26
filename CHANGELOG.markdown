@@ -1,3 +1,5 @@
-# Version 0.2b
+# Version 0.2.1b
 
- - We now support touch on iOS.
+ - Get ready for blackberry support
+ - Add rollover animation to lion theme
+ - Fix overlay scrollbar bug
