@@ -13,7 +13,8 @@
 			'draggerwidth': 'auto',
 			'autohide': false,
 			'touch': true,
-			'blackberry': true
+			'blackberry': true,
+			'arrows': false
 		}
 
 		this.init = function(options) {
@@ -212,6 +213,16 @@
 
 					// Append to dragCon
 					dragCon.append(drag);
+
+					if (data[this].opts.arrows) {
+						upArrow = $(document.createElement('div'));
+						upArrow.addClass(id).addClass('upArrow' + axis).addClass('upArrow').addClass('arrow');
+						dragCon.append(upArrow);
+
+						downArrow = $(document.createElement('div'));
+						downArrow.addClass(id).addClass('downArrow' + axis).addClass('downArrow').addClass('arrow');
+						dragCon.append(downArrow);
+					}
 
 					// Autohide
 					if (data[this].opts.autohide) {
