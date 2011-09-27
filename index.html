@@ -57,11 +57,13 @@
 		$.each(versions, function(i, version) {
 			con = $(document.createElement('li'));
 			if (i > 1) {
-				a = $(document.createElement('a'));
-				a.attr('href', 'download.html');
-				a.html('More Versions...');
-				con.append(a);
-				downloads.append(con);
+				if (i == 2) {
+					a = $(document.createElement('a'));
+					a.attr('href', 'download.html');
+					a.html('More Versions...');
+					con.append(a);
+					downloads.append(con);
+				}
 				return;
 			}
 			title = $(document.createElement('strong'));
