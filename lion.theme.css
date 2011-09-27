@@ -8,6 +8,7 @@
    -moz-transition:background 0.2s ease-in;  
    -o-transition:background 0.2s ease-in;  
    transition:background 0.2s ease-in;  
+   position: absolute;
 }
 
 .dragY {
@@ -18,7 +19,7 @@
 
 .dragX {
 	height: 10px;
-	top: 0px;
+	bottom: 0px;
 	height: 10px;
 }
 
@@ -26,13 +27,13 @@
 	width: 0px;
 	top: 5px;
 	bottom: 5px;
-	padding: 0px 5px;
+	padding: 0px 10px;
 	right: 5px;
 }
 
 .dragConX {
 	height: 0px;
-	padding: 5px 0px;
+	padding: 10px 0px;
 	left: 5px;
 	right: 5px;
 	overflow: visible;
