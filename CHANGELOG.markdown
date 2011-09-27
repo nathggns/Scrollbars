@@ -1,3 +1,3 @@
-# Version 0.2.1.1b
+# Version 0.2.1.2b
 
- - Remove natural scrolling
+ - Remove old arrows code.
