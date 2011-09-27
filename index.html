@@ -3,8 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jQuery Scrollbars</title>
-	<link rel="stylesheet" href="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.min.css" />
-	<link rel="stylesheet" href="http://nath.is/css.php?url=https://raw.github.com/nathggns/Scrollbars/master/lion.theme.min.css" />
 	<style type="text/css">
 	.scroll {
 		width: 300px;
@@ -46,14 +44,13 @@
 	</style>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 	<script src="https://raw.github.com/brandonaaron/jquery-mousewheel/master/jquery.mousewheel.js"></script>
-	<script src="https://raw.github.com/nathggns/Scrollbars/master/jquery.scrollbars.min.js"></script>
 	<script src="http://nath.is/getGitTags.php" type="text/javascript"></script>
-	<script>
-	$(document).ready(function() {
-		$('.normal').scrollbars({ yPadding: 20, xPadding: 20});
-
-		var versions = $.parseJSON(getVersions());
+	<script type="text/javascript">
+	function init(base) {
+		$('.scroll').scrollbars();
+		versions = $.parseJSON(getVersions());
 		downloads = $('#download').next();
+				
 		$.each(versions, function(i, version) {
 			con = $(document.createElement('li'));
 			if (i > 1) {
@@ -99,6 +96,70 @@
 			con.append(links);
 			downloads.append(con);
 		});
+	}
+	$(function() {
+
+		var versions = $.parseJSON(getVersions()),
+			latest = versions[0],
+			name = latest.name,
+			base = "https://raw.github.com/nathggns/Scrollbars/" + name + "/";
+
+		function createTag(tagname, attrs, callback) {
+			var tag = document.createElement(tagname);
+
+			for (var key in attrs) {
+				var attr = attrs[key];
+				tag.setAttribute(key, attr);
+			}
+
+			document.head.appendChild(tag);
+
+			tag.onload = callback;
+			tag.onreadystatechange = function() {
+				if (this.readyState == 'complete') {
+					callback.call(this);
+				}
+			}
+
+			return tag;
+		}
+
+		function createCSS(src) { return createTag('link', {rel:'stylesheet',type:'text/css',href:"http://nath.is/css.php?url=" + src})};
+
+		function createScript(src, callback) {
+			return createTag('script', {
+				src: src,
+				type: "text/javascript"
+			}, callback);
+		}
+
+		createCSS(base+'jquery.scrollbars.css');
+		createCSS(base+'lion.theme.css');
+		createScript(base+'jquery.scrollbars.js', function() {
+			var firstInt = setInterval(function() {
+				var ele = $(document.createElement('div'));
+				var id = Math.floor(Math.random() * 1000000) + '-temp';
+				ele.addClass(id).addClass('contentWrap');
+				$('body').append(ele);
+
+				if (ele.css('float') == 'left') {
+					var secondInt = setInterval(function() {
+						var ele = $(document.createElement('div'));
+						var id = Math.floor(Math.random() * 1000000) + '-temp';
+						ele.addClass(id).addClass('drag');
+						$('body').append(ele);
+						if ($('.drag.' + id).css('backgroundColor').search('0, 0, 0') != -1) {
+							init(base);
+							clearInterval(secondInt);
+						}
+						ele.remove();
+					});
+					clearInterval(firstInt);
+				}
+
+				ele.remove();
+			}, 1000);
+		});
 	});
 	</script>
 </head>
@@ -114,15 +175,7 @@
 	<h1 id="desc">Description</h1>
 	<p><strong>jQuery Scrollbars</strong> is an extremely simple script allowing you, the developer, to theme scrollbars. It will work in almost any situation, and at around just <strong><script>document.write(getSize());</script>kb</strong> minified it will add next to no load time to your page.</p>
 	<h1 id="download">Download</h1>
-	<ul>
-		<li>
-			<b>Development</b>
-			<ul>
-				<li><a href="https://github.com/nathggns/Scrollbars/zipball/master">Zip</a></li>
-				<li><a href="https://github.com/nathggns/Scrollbars/tarball/master">Tarball</a></li>
-			</ul>
-		</li>
-	</ul>
+	<ul></ul>
 	<h1 id="docs">Documentation</h1>
 	<p>For documentation and source code, check out the <a href="http://github.com/nathggns/Scrollbars">github repo</a>.</p>
 	<h1 id="demo">Demo</h1>
