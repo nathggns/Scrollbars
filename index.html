@@ -102,7 +102,7 @@
 		var versions = $.parseJSON(getVersions()),
 			latest = versions[0],
 			name = latest.name,
-			base = "https://raw.github.com/nathggns/Scrollbars/" + name + "/";
+			base = "https://raw.github.com/nathggns/Scrollbars/" + name + "/build/";
 
 		function createTag(tagname, attrs, callback) {
 			var tag = document.createElement(tagname);
@@ -133,9 +133,9 @@
 			}, callback);
 		}
 
-		createCSS(base+'jquery.scrollbars.css');
-		createCSS(base+'lion.theme.css');
-		createScript(base+'jquery.scrollbars.js', function() {
+		createCSS(base+'jquery.scrollbars.min.css');
+		createCSS(base+'lion.theme.min.css');
+		createScript(base+'jquery.scrollbars.min.js', function() {
 			var firstInt = setInterval(function() {
 				var ele = $(document.createElement('div'));
 				var id = Math.floor(Math.random() * 1000000) + '-temp';
