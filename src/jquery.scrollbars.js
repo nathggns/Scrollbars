@@ -221,6 +221,7 @@
 					return true;
 				},
 				addEvents: function(axis, id) {
+
 					// Create reference to this
 					ele = this;
 
@@ -230,52 +231,46 @@
 					// Create reference to dragCon
 					dragCon = data[this][axis].dragCon;
 
-					drag.mousedown(function(event) {
-						if (axis == 'X') {
-							$(this).data('move', event.pageX);
-						} else {
-							$(this).data('move', event.pageY);
-						}
-						$(this).addClass('active');
-						$('body').addClass('scrollingActive');
-						event.preventDefault();
-						return false;
-					});
-
-					$('*').mousemove(function(event) {
-						$('.scrollRoot').each(function() {
-							var drag = $(this).find('.drag' + axis);
-							if (drag.data('move')) {
-								if (axis == 'X') {
-									var distance = event.pageX - drag.data('move');
-									methods.move.call($(this), distance, axis)
-									drag.data('move', event.pageX);
-								} else {
-									var distance = event.pageY - drag.data('move');
-									methods.move.call($(this), distance, axis)
-									drag.data('move', event.pageY);
-								}
+					var eventMethods = {
+						dragMouseDown: function(event) {
+							if (axis == 'X') {
+								$(this).data('move', event.pageX);
+							} else {
+								$(this).data('move', event.pageY);
 							}
-						});
-					}).mouseup(function(event) {
-						$('.dragX, .dragY').data('move', false);
-					})
-
-					// Mousewheel support
-					if ($().mousewheel && data[this].opts.mousewheel) {
-						this.mousewheel(function(event, delta, deltaX, deltaY) {
+							$(this).addClass('active');
+							$('body').addClass('scrollingActive');
+							event.preventDefault();
+							return false;
+						},
+						scrollStarMouseMove: function(event) {
+							$('.scrollRoot').each(function() {
+								var drag = $(this).find('.drag' + axis);
+								if (drag.data('move')) {
+									if (axis == 'X') {
+										var distance = event.pageX - drag.data('move');
+										methods.move.call($(this), distance, axis)
+										drag.data('move', event.pageX);
+									} else {
+										var distance = event.pageY - drag.data('move');
+										methods.move.call($(this), distance, axis)
+										drag.data('move', event.pageY);
+									}
+								}
+							});
+						},
+						scrollStarMouseUp: function(event) {
+							$('.dragX, .dragY').data('move', false);
+						},
+						mousewheel: function(event, delta, deltaX, deltaY) {
 							if (axis == 'X') {
 								methods.move.call($(this), deltaX*10, axis);
 							} else {
 								methods.move.call($(this), -deltaY*10, axis);
 							}
 							return false;
-						});
-					}
-
-					// clicktoscroll support
-					if (data[this].opts.clicktoscroll) {
-						dragCon.mouseup(function(event) {
+						},
+						clickScrollUp: function(event) {
 							if ($(event.srcElement).hasClass('drag')) return;
 							if (!$(this).data('mousedown')) return;
 							$(this).data('mousedown', false);
@@ -290,38 +285,33 @@
 								var current = event.pageY;
 								current = current - drag.offset().top;
 								current = current - (drag.height() / 2);
-								console.log(current);
 								methods.move.call($('.scrollRoot.' + id), current, axis);
 							}
 							event.preventDefault();
 							return false;
-						}).mousedown(function(event) {
+						},
+						clickScrollDown: function(event) {
 							if ($(event.srcElement).hasClass('drag')) return;
 							$(this).data('mousedown', true);
 							event.preventDefault();
 							return false;
-						});
-					}
-
-					// Autohide
-					if (data[this].opts.autohide) {
-						this.hover(function(event) {
+						},
+						hideEnter: function(event) {
 							$(this).find('.drag').fadeTo(400, 1);
-						}, function(event) {
-							$(this).find('.drag').fadeTo(400, 0);
-						})
-					}
-
-					// mousedrag
-					if (data[this].opts.mousedrag) {
-						this.mousedown(function(event) {
+						},
+						hideOut: function(event) {
+							var drag = $(this).find('.drag');
+							if (!drag.data('move')) {
+								drag.fadeTo(400, 0);
+							}
+						},
+						mouseDragDown: function(event) {
 							$('html, body').css({cursor: data[$(this)].opts.mousedragcursor});
 							$(this).data('move', [event.pageX, event.pageY]);
 							event.preventDefault();
 							return false;
-						});
-
-						$('*').mousemove(function(event) {
+						},
+						mouseDragStarMove: function(event) {
 							$('.scrollRoot').each(function() {
 								if ($(this).data('move')) {
 									x = $(this).data('move')[0];
@@ -336,30 +326,28 @@
 									$(this).data('move', [event.pageX, event.pageY]);	
 								}
 							});
-						}).mouseup(function(event) {
+						},
+						mouseDragStarUp: function(event) {
 							$('html, body').css({cursor: 'auto'});
 							$('.scrollRoot').each(function() {
 								$(this).data('move', false);
 							});
-						});
-
-						this.css({cursor:data[this].opts.mousedragcursor});
-					}
-
-					// Touch support
-					if (data[this].opts.touch) {
-						var pure = this.get(0);
-						pure.ontouchstart = function(event) {
+						},
+						onTouchStart: function(event) {
 							if (event.targetTouches.length == 1) {
 								$(this).data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
 							} else {
 								$(this).data('start', false);
 							}
-						}
-						pure.ontouchend = function(event) {
-							this.ontouchstart(event);
-						}
-						pure.ontouchmove = function(event) {
+						},
+						onTouchEnd: function(event) {
+							if (event.targetTouches.length == 1) {
+								$(this).data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
+							} else {
+								$(this).data('start', false);
+							}
+						},
+						onTouchMove:  function(event) {
 							if ($(this).data('start')) {
 								startX = $(this).data('start')[0];
 								startY = $(this).data('start')[1];
@@ -378,7 +366,69 @@
 									event.preventDefault();
 								}
 							}
+						},
+						bbMouseDown: function(event) {
+							if ($(this).data('move')) {
+								$(this).data('move', false);
+							} else {
+								if (axis == 'X') {
+									$(this).data('move', event.pageX);
+								} else {
+									$(this).data('move', event.pageY);
+								}
+							}
+						},
+						ignore: function() {
+							// Ignore
 						}
+					}
+
+					// Blackberry support (disabled for now)
+					if (data[this].opts.blackberry && navigator.userAgent.toLowerCase().search('blackberry') != -1) {
+						eventMethods['scrollStarMouseUp'] = eventMethods['ignore'];
+						eventMethods['dragMouseDown'] = eventMethods['bbMouseDown'];
+					}
+
+					drag.mousedown(eventMethods['dragMouseDown']);
+
+					$('*')
+						.mousemove(eventMethods['scrollStarMouseMove'])
+						.mouseup(eventMethods['scrollStarMouseUp']);
+
+					// Mousewheel support
+					if ($().mousewheel && data[this].opts.mousewheel) {
+						this.mousewheel(eventMethods['mousewheel']);
+					}
+
+					// clicktoscroll support
+					if (data[this].opts.clicktoscroll) {
+						dragCon
+							.mouseup(eventMethods['clickScrollUp'])
+							.mousedown(eventMethods['clickScrollDown']);
+					}
+
+					// Autohide
+					if (data[this].opts.autohide) {
+						this.hover(eventMethods['hideEnter'], eventMethods['hideOut'])
+					}
+
+					// mousedrag
+					if (data[this].opts.mousedrag) {
+						this.mousedown(eventMethods['mouseDragDown']);
+
+						$('*')
+							.mousemove(eventMethods['mouseDragStarMove'])
+							.mouseup(eventMethods['mouseDragStarUp']);
+
+						this.css({cursor:data[this].opts.mousedragcursor});
+					}
+
+					// Touch support
+					if (data[this].opts.touch) {
+						var pure = this.get(0);
+						pure.ontouchstart = eventMethods['onTouchStart'];
+						pure.ontouchend = eventMethods['onTouchEnd'];
+						pure.ontouchmove = eventMethods['onTouchMove'];
 					}
 				},
 				move: function(offset, axis) {
