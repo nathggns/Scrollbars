@@ -267,7 +267,7 @@
 							if (axis == 'X') {
 								methods.move.call($(this), deltaX*10, axis);
 							} else {
-								methods.move.call($(this), -deltaY, axis);
+								methods.move.call($(this), -deltaY*10, axis);
 							}
 							return false;
 						});
@@ -459,4 +459,4 @@
 
 		});
 	}
-})(jQuery);;
+})(jQuery);
