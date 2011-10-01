@@ -57,10 +57,10 @@ No, touch support is limited to iOS at the current moment.
 
 If you pass an array to the plugin, we can change certain things, such as:
 
- - **xPadding**:
+ - **xpadding**:
   - Default: auto
   - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
- - **yPadding**:
+ - **ypadding**:
   - Default: auto
   - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
  - **mousewheel**:
@@ -94,8 +94,8 @@ $('*').scrollbars();
 
 // Overlay scrollbars
 $('*').scrollbars({
-	xPadding:0,
-  yPadding:0
+	xpadding:0,
+  ypadding:0
 });
 
 // Disable mousewheel support
