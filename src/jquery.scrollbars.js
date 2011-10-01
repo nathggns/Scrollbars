@@ -272,8 +272,8 @@
 						},
 						clickScrollUp: function(event) {
 							if ($(event.srcElement).hasClass('drag')) return;
-							if (!$(this).data('mousedown')) return;
-							$(this).data('mousedown', false);
+							if (!dragCon.data('mousedown')) return;
+							dragCon.data('mousedown', false);
 							var drag = $(this).find('.drag');
 
 							if (axis == 'X') {
@@ -292,7 +292,11 @@
 						},
 						clickScrollDown: function(event) {
 							if ($(event.srcElement).hasClass('drag')) return;
-							$(this).data('mousedown', true);
+							if (!$(this).data('stayOff')) {
+								$(this).data('mousedown', true);
+							} else {
+								$(this).data('mousedown', false);
+							}
 							event.preventDefault();
 							return false;
 						},
@@ -434,6 +438,11 @@
 						dragCon
 							.mouseup(eventMethods['clickScrollUp'])
 							.mousedown(eventMethods['clickScrollDown']);
+						
+						drag.get(0).ontouchend = function(event) {
+							dragCon.data('stayOff', true);
+							dragCon.data('mousedown', false);
+						}
 					}
 
 					// Autohide
