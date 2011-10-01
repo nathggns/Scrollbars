@@ -334,33 +334,41 @@
 							});
 						},
 						onTouchStart: function(event) {
+							ele = $('.scrollRoot.' + id);
 							if (event.targetTouches.length == 1) {
-								$(this).data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
+								ele.data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
 							} else {
-								$(this).data('start', false);
+								ele.data('start', false);
 							}
 						},
 						onTouchEnd: function(event) {
+							ele = $('.scrollRoot.' + id);
 							if (event.targetTouches.length == 1) {
-								$(this).data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
+								ele.data('start', [event.targetTouches[0].pageX, event.targetTouches[0].pageY]);
 							} else {
-								$(this).data('start', false);
+								ele.data('start', false);
 							}
 						},
-						onTouchMove:  function(event) {
-							if ($(this).data('start')) {
-								startX = $(this).data('start')[0];
-								startY = $(this).data('start')[1];
+						onTouchMove:  function(event, op) {
+							ele = $('.scrollRoot.' + id);
+							if (ele.data('start')) {
+								startX = ele.data('start')[0];
+								startY = ele.data('start')[1];
 								newX = event.targetTouches[0].pageX;
 								newY = event.targetTouches[0].pageY;
 
 								difX = newX - startX;
 								difY = newY - startY;
 
-								$(this).data('start', [newX, newY]);
+								ele.data('start', [newX, newY]);
 
-								X = methods.move.call($('.scrollRoot.' + id), -difX, 'X');
-								Y = methods.move.call($('.scrollRoot.' + id), -difY, 'Y');
+								if (op) {
+									X = methods.move.call($('.scrollRoot.' + id), difX, 'X');
+									Y = methods.move.call($('.scrollRoot.' + id), difY, 'Y');
+								} else {
+									X = methods.move.call($('.scrollRoot.' + id), -difX, 'X');
+									Y = methods.move.call($('.scrollRoot.' + id), -difY, 'Y');
+								}
 
 								if (!X && !Y) {
 									event.preventDefault();
@@ -387,6 +395,27 @@
 					if (data[this].opts.blackberry && navigator.userAgent.toLowerCase().search('blackberry') != -1) {
 						eventMethods['scrollStarMouseUp'] = eventMethods['ignore'];
 						eventMethods['dragMouseDown'] = eventMethods['bbMouseDown'];
+					}
+
+					// Touch support
+					var uAgent = navigator.userAgent.toLowerCase()
+					var isTouch = uAgent.search('iphone') > -1 || uAgent.search('ipod') > -1 || uAgent.search('ipad') > -1 || uAgent.search('android') > -1;
+					if (data[this].opts.touch && isTouch) {
+						var pure = this.find('.contentWrap').get(0);
+						var pdrag = drag.get(0);
+						pure.ontouchstart = eventMethods['onTouchStart'];
+						pure.ontouchend = eventMethods['onTouchEnd'];
+						pure.ontouchmove = eventMethods['onTouchMove'];
+
+						pdrag.ontouchstart = function(event) {
+							pure.ontouchstart(event, true);
+						}
+						pdrag.ontouchend = function(event) {
+							pure.ontouchend(event, true);
+						}
+						pdrag.ontouchmove = function(event) {
+							pure.ontouchmove(event, true);
+						}
 					}
 
 					drag.mousedown(eventMethods['dragMouseDown']);
@@ -421,14 +450,6 @@
 							.mouseup(eventMethods['mouseDragStarUp']);
 
 						this.css({cursor:data[this].opts.mousedragcursor});
-					}
-
-					// Touch support
-					if (data[this].opts.touch) {
-						var pure = this.get(0);
-						pure.ontouchstart = eventMethods['onTouchStart'];
-						pure.ontouchend = eventMethods['onTouchEnd'];
-						pure.ontouchmove = eventMethods['onTouchMove'];
 					}
 				},
 				move: function(offset, axis) {
