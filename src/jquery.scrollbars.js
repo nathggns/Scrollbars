@@ -3,8 +3,8 @@
 	function Scroller() {
 		var data = {}
 		var defaults = {
-			'yPadding': 'auto',
-			'xPadding': 'auto',
+			'ypadding': 'auto',
+			'xpadding': 'auto',
 			'mousewheel': true,
 			'mousedrag': false,
 			'mousedragcursor': 'move',
@@ -87,15 +87,15 @@
 					data[this].id = id;
 
 					// Retrieve xPadding and yPadding from options
-					var xPadding = data[this].opts.xPadding,
-						yPadding = data[this].opts.yPadding;
+					var xPadding = data[this].opts.xpadding,
+						yPadding = data[this].opts.ypadding;
 					
 					if (xPadding == 'auto') {
 						temp = $(document.createElement('div'));
 						temp.addClass('dragConX');
 						$('body').append(temp);
 
-						xPadding = data[this].opts.xPadding = parseFloat(temp.outerHeight());
+						xPadding = data[this].opts.xpadding = parseFloat(temp.outerHeight());
 						temp.remove();
 					}
 
@@ -104,7 +104,7 @@
 						temp.addClass('dragConY');
 						$('body').append(temp);
 
-						yPadding = data[this].opts.yPadding = parseFloat(temp.outerWidth());
+						yPadding = data[this].opts.ypadding = parseFloat(temp.outerWidth());
 
 						temp.remove();
 					}
@@ -161,7 +161,7 @@
 					if (axis == 'X') {
 
 						// Double check that we need scrollbars on this axis
-						var xPadding = data[this].opts.xPadding;
+						var xPadding = data[this].opts.xpadding;
 						if ((rootWrap.width() + xPadding) >= contentWrap.width()) {
 							rootWrap.css({
 								height: rootWrap.height() + xPadding
@@ -178,7 +178,7 @@
 					} else {
 
 						// Double check that we need scrollbars on this axis
-						var yPadding = data[this].opts.yPadding;
+						var yPadding = data[this].opts.ypadding;
 						if ((rootWrap.height() + yPadding) > contentWrap.height()) {
 							rootWrap.css({
 								width: rootWrap.width() + yPadding
