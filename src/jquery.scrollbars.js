@@ -534,9 +534,8 @@
 
 	$.fn.scrollbars = function(options) {
 		return this.each(function() {
-			scroller = new Scroller();
-			scroller.init.call(this, options)
-
+			var scroller = new Scroller();
+			scroller.init.call(this, options);
 		});
 	}
 })(jQuery);
