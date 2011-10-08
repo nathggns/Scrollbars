@@ -44,3 +44,7 @@
 	background: #555;
 	background: rgba(0, 0, 0, 0.7);
 }
+
+.dragConX, .dragConY {
+	background: transparent;
+}

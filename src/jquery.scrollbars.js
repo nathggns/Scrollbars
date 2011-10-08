@@ -166,6 +166,7 @@
 							rootWrap.css({
 								height: rootWrap.height() + xPadding
 							});
+							dragCon.remove();
 							return false;
 						}
 
@@ -183,6 +184,7 @@
 							rootWrap.css({
 								width: rootWrap.width() + yPadding
 							});
+							dragCon.remove();
 							return false;
 						}
 
@@ -271,8 +273,13 @@
 							return false;
 						},
 						clickScrollUp: function(event) {
-							if ($(event.srcElement).hasClass('drag')) return;
-							if (!dragCon.data('mousedown')) return;
+							var dragCon = $('.dragCon' + axis + '.' + id);
+							if ($(event.srcElement).hasClass('drag')) {
+								return;
+							}
+							if (!dragCon.data('mousedown')) {
+								return;
+							}
 							dragCon.data('mousedown', false);
 							var drag = $(this).find('.drag');
 
@@ -291,7 +298,9 @@
 							return false;
 						},
 						clickScrollDown: function(event) {
-							if ($(event.srcElement).hasClass('drag')) return;
+							if ($(event.srcElement).hasClass('drag')) {
+								return;
+							}
 							if (!$(this).data('stayOff')) {
 								$(this).data('mousedown', true);
 							} else {
