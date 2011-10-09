@@ -4,11 +4,17 @@
 	<meta charset="UTF-8">
 	<title>jQuery Scrollbars</title>
 	<style type="text/css">
+	body {
+		padding: 10px;
+	}
 	.scroll {
 		width: 300px;
 		height: 180px;
 		overflow: scroll;
 		margin-right: 30px;
+	}
+	.demo {
+		float: left;
 	}
 	ul, li {
 		margin: 10px 0px;
@@ -47,10 +53,13 @@
 	<script src="http://nath.is/getGitTags.php" type="text/javascript"></script>
 	<script type="text/javascript">
 	function init(base) {
-		$('.scroll').scrollbars();
+		$('.normal').scrollbars();
+		$('.mousedrag').scrollbars({mousedrag:true});
+		$('.autohide').scrollbars({autohide:true});
+		$('.dragheight').scrollbars({draggerheight:100});
 		versions = $.parseJSON(getVersions());
 		downloads = $('#download').next();
-				
+
 		$.each(versions, function(i, version) {
 			con = $(document.createElement('li'));
 			if (i > 1) {
@@ -179,23 +188,76 @@
 	<h1 id="docs">Documentation</h1>
 	<p>For documentation and source code, check out the <a href="http://github.com/nathggns/Scrollbars">github repo</a>.</p>
 	<h1 id="demo">Demo</h1>
-	<h3>Default</h3>
-	<div class="scroll normal">
-		<img src="http://www.getthebigpicture.net/storage/jbaldwin/hawaii8.jpg?__SQUARESPACE_CACHEVERSION=1304222222297" />
+	<div class="demo">
+		<h3>Default</h3>
+		<div class="scroll normal">
+			<img src="http://www.getthebigpicture.net/storage/jbaldwin/hawaii8.jpg?__SQUARESPACE_CACHEVERSION=1304222222297" />
+		</div>
 	</div>
-	<h3>Default</h3>
-	<div class="scroll normal">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	<div class="demo">
+		<h3>Default</h3>
+		<div class="scroll normal">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
 	</div>
+	<div class="demo">
+		<h3>Drag content to scroll</h3>
+		<div class="scroll mousedrag">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+	<div class="demo">
+		<h3>Autohide</h3>
+		<div class="scroll autohide">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+		<div class="demo">
+		<h3>100px drag height</h3>
+		<div class="scroll dragheight">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+<div style="clear:both;height:1px;width:100%">&nbsp;</div>
 </body>
 </html>
