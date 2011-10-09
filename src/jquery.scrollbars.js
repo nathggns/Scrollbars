@@ -13,7 +13,8 @@
 			'draggerwidth': 'auto',
 			'autohide': false,
 			'touch': true,
-			'blackberry': true
+			'blackberry': true,
+			'scrollbycontent': true
 		}
 
 		this.init = function(options) {
@@ -33,7 +34,7 @@
 						overflowX = this.css('overflow-x'),
 						overflowY = this.css('overflow-y'),
 						need = overflow == 'auto' || overflow == 'scroll';
-					
+
 					need = need || overflowX == 'auto' || overflowX == 'scroll';
 					need = need || overflowY == 'auto' || overflowY == 'scroll';
 
@@ -43,7 +44,7 @@
 					var imgs = this.find('img'),
 						imgsLen = imgs.length,
 						imgsLoad = 0;
-					
+
 					if (imgsLen == 0) {
 						methods.prepare.call(this);
 					} else {
@@ -79,7 +80,7 @@
 
 					// Create an id for all our elements
 					id = 'scroll-' + Math.floor(Math.random() * 100000);
-					
+
 					// Add our id and scrollRoot class
 					this.addClass(id).addClass('scrollRoot');
 
@@ -89,7 +90,7 @@
 					// Retrieve xPadding and yPadding from options
 					var xPadding = data[this].opts.xpadding,
 						yPadding = data[this].opts.ypadding;
-					
+
 					if (xPadding == 'auto') {
 						temp = $(document.createElement('div'));
 						temp.addClass('dragConX');
@@ -108,7 +109,7 @@
 
 						temp.remove();
 					}
-										
+
 					// Wrap with contentWrap
 					var contentWrap = $(document.createElement('div'));
 					contentWrap.addClass(id).addClass('contentWrap');
@@ -333,10 +334,14 @@
 									dX = event.pageX - x;
 									dY = event.pageY - y;
 
-									methods.move.call($(this), -dX, 'X');
-									methods.move.call($(this), -dY, 'Y');
-
-									$(this).data('move', [event.pageX, event.pageY]);	
+									if (data[$(this)].opts.scrollbycontent) {
+										methods.moveContent.call($(this), -dX, 'X');
+										methods.moveContent.call($(this), -dY, 'Y');
+									} else {
+										methods.move.call($(this), -dX, 'X');
+										methods.move.call($(this), -dY, 'Y');
+									}
+									$(this).data('move', [event.pageX, event.pageY]);
 								}
 							});
 						},
@@ -447,7 +452,7 @@
 						dragCon
 							.mouseup(eventMethods['clickScrollUp'])
 							.mousedown(eventMethods['clickScrollDown']);
-						
+
 						drag.get(0).ontouchend = function(event) {
 							dragCon.data('stayOff', true);
 							dragCon.data('mousedown', false);
@@ -529,9 +534,95 @@
 							notVisible = contentWrap.height() - rootWrap.height(),
 							distanceRatio = notVisible / trackDistance,
 							distance = (distance * distanceRatio) * -1;
-						
+
 						contentWrap.css({ top: distance });
 					}
+
+					return returnV;
+				},
+				moveContent: function(offset, axis) {
+					var drag = this.find('.drag' + axis);
+					var dragCon = this.find('.dragCon' + axis);
+					var contentWrap = this.find('.contentWrap');
+					var rootWrap = this.find('.rootWrap');
+					var returnV = false;
+
+					if (axis == 'X') {
+						var current = contentWrap.css('left');
+					} else {
+						var current = contentWrap.css('top');
+					}
+
+					current = current == 'auto' ? 0 : -parseFloat(current);
+
+					var distance = current + offset;
+
+					if (axis == 'X') {
+						var min = 0;
+						var max = contentWrap.width() - rootWrap.width();
+
+						distance = distance < min ? min : distance;
+						distance = distance > max ? max : distance;
+						distance = -distance;
+
+						contentWrap.css({
+							left: distance
+						});
+
+						var trackDistance = dragCon.width() - drag.width();
+						var outOfRange = contentWrap.width() - rootWrap.width();
+						var ratio = trackDistance / outOfRange;
+
+						var current = drag.css('left');
+
+						current = current == 'auto' ? 0 : parseFloat(current);
+
+						var distance = current + (ratio * offset);
+
+						var min = 0;
+						var max = trackDistance;
+
+						distance = distance < min ? min : distance;
+						distance = distance > max ? max : distance;
+
+						drag.css({
+							left: distance
+						});
+
+					} else {
+						var min = 0;
+						var max = contentWrap.height() - rootWrap.height();
+
+						distance = distance < min ? min : distance;
+						distance = distance > max ? max : distance;
+						distance = -distance;
+
+						contentWrap.css({
+							top: distance
+						});
+
+						var trackDistance = dragCon.height() - drag.height();
+						var outOfRange = contentWrap.height() - rootWrap.height();
+						var ratio = trackDistance / outOfRange;
+
+						var current = drag.css('top');
+
+						current = current == 'auto' ? 0 : parseFloat(current);
+
+						var distance = current + (ratio * offset);
+
+						var min = 0;
+						var max = trackDistance;
+
+						distance = distance < min ? min : distance;
+						distance = distance > max ? max : distance;
+
+						drag.css({
+							top: distance
+						});
+					}
+
+
 
 					return returnV;
 				}

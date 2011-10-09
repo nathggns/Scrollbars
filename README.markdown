@@ -85,6 +85,9 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **touch**
   - Default: true
   - Use: Enable/Disable touch support
+ - **scrollbycontent**
+  - Default: true
+  - Use: This doesn't matter is mousedrag is false. This is an extremely technical option, please read the source code to try and attempt to understand what this option does. I don't know how to explain it.
 
 # Examples.
 
