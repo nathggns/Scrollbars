@@ -52,12 +52,16 @@
 
                         switch(e.which) {
                             case 33: // page up
-                            case 38: // up arrow
                                 methods.move.call($(this), -100, 'Y');
                                 break;
+                            case 38: // up arrow
+                                methods.move.call($(this), -10, 'Y');
+                                break;
                             case 34: // page down
-                            case 40: // down arrow
                                 methods.move.call($(this), 100, 'Y');
+                                break;
+                            case 40: // down arrow
+                                methods.move.call($(this), 10, 'Y');
                                 break;
                         }
                     });
