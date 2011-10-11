@@ -14,12 +14,14 @@
             'autohide': false,
             'touch': true,
             'blackberry': true,
-            'scrollbycontent': true
+            'scrollbycontent': true,
+            'tabindex': 1
         };
 
         this.init = function(options) {
             var methods = {
                 init: function(options) {
+                    var self = this;
                     var opts = $.extend(defaults, options);
                     data[this] = {
                         opts: opts,
@@ -33,14 +35,32 @@
                     var overflow = this.css('overflow'),
                         overflowX = this.css('overflow-x'),
                         overflowY = this.css('overflow-y'),
-                        need = overflow === 'auto' || overflow === 'scroll';
+                        need = (overflow === 'auto' || overflow === 'scroll');
 
-                    need = need || overflowX === 'auto' || overflowX === 'scroll';
-                    need = need || overflowY === 'auto' || overflowY === 'scroll';
+                    need = (need || overflowX === 'auto' || overflowX === 'scroll');
+                    need = (need || overflowY === 'auto' || overflowY === 'scroll');
 
                     if (!need) {
                         return;
                     }
+
+                    //
+                    // Events for 508
+                    //
+                    $(this).keydown(function(e) {
+                        e.preventDefault();
+
+                        switch(e.which) {
+                            case 33: // page up
+                            case 38: // up arrow
+                                methods.move.call($(this), -100, 'Y');
+                                break;
+                            case 34: // page down
+                            case 40: // down arrow
+                                methods.move.call($(this), 100, 'Y');
+                                break;
+                        }
+                    });
 
                     // Wait until all images have loaded.
                     var imgs = this.find('img'),
@@ -104,8 +124,10 @@
                     }
 
                     if (yPadding === 'auto') {
-                        temp = $(document.createElement('div'));
-                        temp.addClass('dragConY');
+                        temp = $('<div/>', {
+                            'class': 'dragConY'
+                        });
+
                         $('body').append(temp);
 
                         yPadding = data[this].opts.ypadding = parseFloat(temp.outerWidth());
@@ -114,10 +136,14 @@
                     }
 
                     // Wrap with contentWrap
-                    var contentWrap = $(document.createElement('div'));
-                    contentWrap.addClass(id).addClass('contentWrap');
+                    var contentWrap = $('<div/>', {
+                        'class': 'contentWrap',
+                        'id': id
+                    });
+
                     this.wrapInner(contentWrap);
                     contentWrap = this.find('.contentWrap');
+                    contentWrap.attr('tabindex', data[this].opts.tabindex);
                     data[this].contentWrap = contentWrap;
 
                     // Wrap with rootWrap
@@ -159,6 +185,16 @@
                     // Add our drag container
                     var dragCon = $(document.createElement('div'));
                     dragCon.addClass(id).addClass('dragCon' + axis);
+                    dragCon.prop({
+                        'role': 'scrollbar',
+                        'tabindex': data[this].opts.tabindex + 1,
+                        'aria-controls': id, // Error prone...element must have ID
+                        'aria-orientation': (axis === 'Y' ? 'vertical' : 'horizontal'),
+                        'aria-valuemin': 0,
+                        'aria-valuemax': 100,
+                        'aria-valuenow': 0
+                    });
+
                     this.append(dragCon);
                     data[this][axis] = {
                         dragCon: dragCon
