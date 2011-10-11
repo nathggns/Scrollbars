@@ -52,7 +52,7 @@
 	<script src="https://raw.github.com/brandonaaron/jquery-mousewheel/master/jquery.mousewheel.js"></script>
 	<script src="http://nath.is/getGitTags.php" type="text/javascript"></script>
 	<script type="text/javascript">
-	function init(base) {
+	function init() {
 		$('.normal').scrollbars();
 		$('.mousedrag').scrollbars({mousedrag:true});
 		$('.autohide').scrollbars({autohide:true});
@@ -106,68 +106,81 @@
 			downloads.append(con);
 		});
 	}
-	$(function() {
 
+	function getHead() {
+		if (typeof document.h == 'undefined') {
+			document.h = document.getElementsByTagName('head')[0];
+		}
+		return document.h;
+	}
+
+	function loadScript(src, callback) {
+		var script = document.createElement('script'),
+			scope = this;
+		script.src = src;
+		script.type = 'text/javascript';
+
+		if (callback) {
+			script.onload = function() {
+				callback.call(scope);
+			}
+			script.onreadystatechange = function() {
+				if ((this.readyState == 'complete' || this.readyState == 'loaded') && !$(this).data('loaded')) {
+					$(this).data('loaded', true);
+					callback.call(scope);
+				}
+			}
+		}
+
+
+		getHead().appendChild(script);
+		return script;
+	}
+
+	function loadStyle(src, callback) {
+		var style = document.createElement('link'),
+			scope = this;
+		style.rel = 'stylesheet';
+		style.type = 'text/css';
+		style.href = src;
+
+		var sheet, cssRules;
+		if ( 'sheet' in style) {
+			sheet = 'sheet'; cssRules = 'cssRules';
+		}
+		else {
+			sheet = 'styleSheet'; cssRules = 'rules';
+		}
+
+		var interval_id = setInterval(function() {
+			if (style[sheet]) {
+				clearInterval(interval_id);
+
+				if (callback) {
+					callback.call(scope);
+				}
+			}
+		}, 10);
+		
+
+		getHead().appendChild(style);
+		return style;
+	}
+
+	$(function() {
 		var versions = $.parseJSON(getVersions()),
 			latest = versions[0],
 			name = latest.name,
 			base = "https://raw.github.com/nathggns/Scrollbars/" + name + "/build/";
-
-		function createTag(tagname, attrs, callback) {
-			var tag = document.createElement(tagname);
-
-			for (var key in attrs) {
-				var attr = attrs[key];
-				tag.setAttribute(key, attr);
-			}
-
-			document.head.appendChild(tag);
-
-			tag.onload = callback;
-			tag.onreadystatechange = function() {
-				if (this.readyState == 'complete') {
-					callback.call(this);
-				}
-			}
-
-			return tag;
-		}
-
-		function createCSS(src) { return createTag('link', {rel:'stylesheet',type:'text/css',href:"http://nath.is/css.php?url=" + src})};
-
-		function createScript(src, callback) {
-			return createTag('script', {
-				src: src,
-				type: "text/javascript"
-			}, callback);
-		}
-
-		createCSS(base+'jquery.scrollbars.min.css');
-		createCSS(base+'lion.theme.min.css');
-		createScript(base+'jquery.scrollbars.min.js', function() {
-			var firstInt = setInterval(function() {
-				var ele = $(document.createElement('div'));
-				var id = Math.floor(Math.random() * 1000000) + '-temp';
-				ele.addClass(id).addClass('contentWrap');
-				$('body').append(ele);
-
-				if (ele.css('float') == 'left') {
-					var secondInt = setInterval(function() {
-						var ele = $(document.createElement('div'));
-						var id = Math.floor(Math.random() * 1000000) + '-temp';
-						ele.addClass(id).addClass('drag');
-						$('body').append(ele);
-						if ($('.drag.' + id).css('backgroundColor').search('0, 0, 0') != -1) {
-							init(base);
-							clearInterval(secondInt);
-						}
-						ele.remove();
-					});
-					clearInterval(firstInt);
-				}
-
-				ele.remove();
-			}, 1000);
+				
+		sBase = 'http://nath.is/css.php?url=' + base;
+		
+		loadStyle(sBase + 'jquery.scrollbars.min.css', function() {
+			loadStyle(sBase + 'lion.theme.min.css', function() {
+				loadScript(base + 'jquery.scrollbars.min.js', function() {
+					init();
+				});
+			});
 		});
 	});
 	</script>
