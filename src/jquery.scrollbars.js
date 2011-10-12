@@ -117,8 +117,9 @@
                 yPadding = data[this].opts.ypadding;
 
             if (xPadding === 'auto') {
-                temp = $(document.createElement('div'));
-                temp.addClass('dragConX');
+                temp = $('<div/>', {
+                    'class': 'dragConX'
+                });
                 $('body').append(temp);
 
                 xPadding = data[this].opts.xpadding = parseFloat(temp.outerHeight());
@@ -149,8 +150,9 @@
             data[this].contentWrap = contentWrap;
 
             // Wrap with rootWrap
-            var rootWrap = $(document.createElement('div'));
-            rootWrap.addClass(id).addClass('rootWrap');
+            var rootWrap = $('<div/>',{
+                'class': id + ' rootWrap'
+            });
             this.wrapInner(rootWrap);
             rootWrap = this.find('.rootWrap');
             data[this].rootWrap = rootWrap;
@@ -185,8 +187,9 @@
                 dragSize = 0;
 
             // Add our drag container
-            var dragCon = $(document.createElement('div'));
-            dragCon.addClass(id).addClass('dragCon' + axis);
+            var dragCon = $('<div/>',{
+                'class': 'dragCon' + axis
+            });
             dragCon.prop({
                 'role': 'scrollbar',
                 'tabindex': data[this].opts.tabindex + 1,
@@ -241,8 +244,9 @@
             }
 
             // Create the dragger
-            var drag = $(document.createElement('div'));
-            drag.addClass(id).addClass('drag' + axis).addClass('drag');
+            var drag = $('<div/>',{
+                'class': id + ' drag' + axis + ' drag'
+            });
             data[this][axis].drag = drag;
 
             // Set the dragger size
@@ -529,7 +533,7 @@
                 this.css({cursor:data[this].opts.mousedragcursor});
             }
         },
-        move: function(offset, axis) {
+        move: function(offset, axis, animate) {
             var drag = this.find('.drag' + axis);
             var dragCon = this.find('.dragCon' + axis);
             var contentWrap = this.find('.contentWrap');
@@ -539,6 +543,10 @@
             var trackDistance = 0;
             var notVisible = 0;
             var distanceRatio = 0;
+
+            if (typeof animate === 'undefined') {
+                animate = false;
+            }
 
             if (axis === 'X') {
                 current = drag.css('left');
@@ -564,9 +572,15 @@
                     returnV = true;
                 }
 
-                drag.css({
-                    left: distance
-                });
+                if (animate) {
+                    drag.animate({
+                        left: distance
+                    }, 200);
+                } else {
+                    drag.css({
+                        left: distance
+                    });
+                }
 
                 trackDistance = dragCon.width() - drag.width();
 
@@ -575,8 +589,13 @@
 
                 distance = (distance * distanceRatio) * -1;
 
-                contentWrap.css({ left: distance });
-
+                if (animate) {
+                    contentWrap.animate({
+                        left: distance
+                    }, 200);
+                } else {
+                    contentWrap.css({ left: distance });
+                }
             } else {
                 max = dragCon.height() - drag.height();
 
@@ -588,9 +607,15 @@
                     distance = max;
                 }
 
-                drag.css({
-                    top: distance
-                });
+                if (animate) {
+                    drag.animate({
+                        top: distance
+                    }, 200);
+                } else {
+                    drag.css({
+                        top: distance
+                    });
+                }
 
                 if (distance === max) {
                     distance = distance - 1;
@@ -603,7 +628,13 @@
 
                 distance = (distance * distanceRatio) * -1;
 
-                contentWrap.css({ top: distance });
+                if (animate) {
+                    contentWrap.animate({
+                        top: distance
+                    }, 200);
+                } else {
+                    contentWrap.css({ top: distance });
+                }
             }
 
             return returnV;
@@ -696,9 +727,14 @@
                 });
             }
 
-
-
             return returnV;
+        },
+        destroy: function() {
+            delete this[data];
+            var $this = $(this);
+            $this.find('.drag').remove();
+            $this.find('.dragConY').remove();
+            $this.find('.dragConX').remove();
         }
     };
 
