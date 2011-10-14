@@ -40,6 +40,14 @@
 	bottom: 5px;
 }
 
+.dragXUsed .dragConY {
+	bottom: 25px;
+}
+
+.dragYUsed .dragConX {
+	right: 25px;
+}
+
 .scrollRoot:hover .drag {
 	background: #555;
 	background: rgba(0, 0, 0, 0.7);

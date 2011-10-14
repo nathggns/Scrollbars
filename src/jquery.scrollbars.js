@@ -143,6 +143,14 @@
 					if (methods.generate.call(this, 'Y')) {
 						methods.addEvents.call(this, 'Y', data[this].id);
 					}
+
+					if (this.find('.dragX').length > 0) {
+						this.addClass('dragXUsed');
+					}
+
+					if (this.find('.dragY').length > 0) {
+						this.addClass('dragYUsed');
+					}
 				},
 				generate: function(axis) {
 					// Retrieve needed values
