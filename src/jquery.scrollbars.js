@@ -15,7 +15,7 @@
 			'touch': true,
 			'blackberry': true
 		}
-
+		
 		var methods = {
 			init: function(options) {
 				var opts = $.extend(defaults, options);
@@ -541,6 +541,10 @@
 				}
 
 				return returnV;
+			},
+			destroy: function() {
+				this.html(this.find('.contentWrap').html());
+				this.removeClass('scrollRoot').removeClass('dragXUsed').removeClass('dragYUsed');
 			}
 		}
 		var arg = arguments;
