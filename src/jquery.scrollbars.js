@@ -13,7 +13,8 @@
 			'draggerwidth': 'auto',
 			'autohide': false,
 			'touch': true,
-			'blackberry': true
+			'blackberry': true,
+			'force': false
 		}
 		
 		var methods = {
@@ -36,7 +37,7 @@
 				need = need || overflowX == 'auto' || overflowX == 'scroll';
 				need = need || overflowY == 'auto' || overflowY == 'scroll';
 
-				if (!need) return;
+				if (!need && !opts.force) return;
 
 				// Wait until all images have loaded.
 				var imgs = this.find('img'),
