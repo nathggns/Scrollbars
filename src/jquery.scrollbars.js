@@ -549,14 +549,16 @@
 			}
 		}
 		var arg = arguments;
-		return this.each(function() {
-			if (methods[method]) {
-				return methods[method].apply($(this), Array.prototype.slice(arg, 1));
-			} else if (typeof method === 'object' || !method) {
-				return methods['init'].apply($(this), arg);
-			} else {
-				$.error('Method ' + method + ' does not exist on jQuery.scrollbars');
-			}
-		});
+		if (methods[method]) {
+			return this.each(function() {
+				methods[method].apply($(this), $.makeArray(arg).slice(1));
+			});
+		} else if (typeof method === 'object' || !method) {
+			return this.each(function() {
+				methods['init'].apply($(this), arg);
+			});
+		} else {
+			$.error('Method ' + method + ' does not exist on jQuery.scrollbars');
+		}
 	}
 })(jQuery);
