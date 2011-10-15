@@ -44,23 +44,23 @@
 					imgsLen = imgs.length,
 					imgsLoad = 0;
 				
-				if (imgsLen == 0) {
+				if (imgsLen === 0) {
 					methods.prepare.call(this);
 				} else {
-					data[this]['imgs'] = {
-						eles: imgs,
-						length: imgsLen,
+					var id = 'imagewait-' + Math.floor(Math.random() * 10000);
+					data[id] = {
+						imgs: imgs,
+						len: imgsLen,
 						load: imgsLoad
 					}
 					$.each(imgs, function(i, img) {
-						image = new Image;
-						data[image] = ele;
+						var image = new Image;
+						$(image).bind('load error', function(event) {
+							data[id].load++;
+							if (event.type == 'error') return;
 
-						$(image).bind('load error', function() {
-							data[data[this]].imgs.load++;
-
-							if (data[data[this]].imgs.load == data[data[this]].imgs.length) {
-								methods.prepare.call(data[data[this]].ele);
+							if (data[id].load == data[id].len) {
+								methods.prepare.call(ele);
 							}
 						});
 
