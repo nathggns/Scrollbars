@@ -1,5 +1,8 @@
 /*! jQuery Scrollbars | License: https://github.com/nathggns/Scrollbars/blob/master/LICENSE */
 (function($) {
+	$.scrollbars = function(method) {
+		$('*').scrollbars(method);
+	}
 	$.fn.scrollbars = function(method) {
 		var data = {}
 		var defaults = {
