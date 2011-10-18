@@ -344,8 +344,8 @@
 								dX = event.pageX - x;
 								dY = event.pageY - y;
 
-								methods.move.call($(this), -dX, 'X');
-								methods.move.call($(this), -dY, 'Y');
+								methods.moveContent.call($(this), -dX, 'X');
+								methods.moveContent.call($(this), -dY, 'Y');
 
 								$(this).data('move', [event.pageX, event.pageY]);	
 							}
@@ -387,11 +387,11 @@
 							ele.data('start', [newX, newY]);
 
 							if (op) {
-								X = methods.move.call($('.scrollRoot.' + id), difX, 'X');
-								Y = methods.move.call($('.scrollRoot.' + id), difY, 'Y');
+								X = methods.moveContent.call($('.scrollRoot.' + id), difX, 'X');
+								Y = methods.moveContent.call($('.scrollRoot.' + id), difY, 'Y');
 							} else {
-								X = methods.move.call($('.scrollRoot.' + id), -difX, 'X');
-								Y = methods.move.call($('.scrollRoot.' + id), -difY, 'Y');
+								X = methods.moveContent.call($('.scrollRoot.' + id), -difX, 'X');
+								Y = methods.moveContent.call($('.scrollRoot.' + id), -difY, 'Y');
 							}
 
 							if (!X && !Y) {
@@ -542,6 +542,96 @@
 						distance = (distance * distanceRatio) * -1;
 					
 					contentWrap.css({ top: distance });
+				}
+
+				return returnV;
+			},
+			moveContent: function(offset, axis) {
+				var drag = this.find('.drag' + axis);
+				var dragCon = this.find('.dragCon' + axis);
+				var contentWrap = this.find('.contentWrap');
+				var rootWrap = this.find('.rootWrap');
+				var returnV = false;
+				var current = 0;
+				var trackDistance = 0;
+				var outOfRange = 0;
+				var ratio = 0;
+
+				if (axis === 'X') {
+					current = contentWrap.css('left');
+				} else {
+					current = contentWrap.css('top');
+				}
+
+				current = current === 'auto' ? 0 : -parseFloat(current);
+
+				var distance = current + offset;
+				var min = 0;
+				var max = 0;
+
+				if (axis === 'X') {
+					min = 0;
+					max = contentWrap.width() - rootWrap.width();
+
+					distance = distance < min ? min : distance;
+					distance = distance > max ? max : distance;
+					distance = -distance;
+
+					contentWrap.css({
+						left: distance
+					});
+
+					trackDistance = dragCon.width() - drag.width();
+					outOfRange = contentWrap.width() - rootWrap.width();
+					ratio = trackDistance / outOfRange;
+
+					current = drag.css('left');
+
+					current = current === 'auto' ? 0 : parseFloat(current);
+
+					distance = current + (ratio * offset);
+
+					min = 0;
+					max = trackDistance;
+
+					distance = distance < min ? min : distance;
+					distance = distance > max ? max : distance;
+
+					drag.css({
+						left: distance
+					});
+
+				} else {
+					min = 0;
+					max = contentWrap.height() - rootWrap.height();
+
+					distance = distance < min ? min : distance;
+					distance = distance > max ? max : distance;
+					distance = -distance;
+
+					contentWrap.css({
+						top: distance
+					});
+
+					trackDistance = dragCon.height() - drag.height();
+					outOfRange = contentWrap.height() - rootWrap.height();
+					ratio = trackDistance / outOfRange;
+
+					current = drag.css('top');
+
+					current = current === 'auto' ? 0 : parseFloat(current);
+
+					distance = current + (ratio * offset);
+
+					min = 0;
+					max = trackDistance;
+
+					distance = distance < min ? min : distance;
+					distance = distance > max ? max : distance;
+
+					drag.css({
+						top: distance
+					});
 				}
 
 				return returnV;
