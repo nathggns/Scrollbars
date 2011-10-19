@@ -82,12 +82,12 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **autohide**:
   - Default: false
   - Use: Enable/Disable autohiding of the dragger
- - **touch**
+ - **touch**:
   - Default: true
   - Use: Enable/Disable touch support
-- **force**:
- - Default: false
- - Use: Disable the check for the need of scrollbars
+ - **force**:
+  - Default: false
+  - Use: Disable the check for the need of scrollbars
 
 # Examples.
 
