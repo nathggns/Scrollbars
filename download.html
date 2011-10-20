@@ -85,7 +85,6 @@
 	}
 	</style>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-	<script src="http://masonry.desandro.com/jquery.masonry.min.js"></script>
 	<script src="http://nath.is/getGitTags.php"></script>
 	<script>
 	$(function() {
@@ -133,16 +132,6 @@
 			v.append(box);
 			done++;
 		});
-
-		var checkTimer = setInterval(function() {
-			if (count == done) {
-				$('.versions').masonry({
-					itemSelector: '.version',
-					columWidth: 10
-				});
-				clearInterval(checkTimer);
-			}
-		}, 100);
 	});
 	</script>
 </head>
