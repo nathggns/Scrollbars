@@ -2,6 +2,10 @@
 
 /* Required CSS */
 
+.scrollRoot:focus {
+	outline: none;
+}
+
 .contentWrap {
 	position: relative;
 	float: left;

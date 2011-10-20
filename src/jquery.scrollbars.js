@@ -17,7 +17,9 @@
 			'autohide': false,
 			'touch': true,
 			'blackberry': true,
-			'force': false
+			'force': false,
+			'keyboard': true,
+			'keyboardDistance': 10
 		};
 		
 		var methods = {
@@ -133,6 +135,11 @@
 					width: this.width() - yPadding,
 					height: this.height() - xPadding
 				});
+
+				// Give our element tab index for keyboard support
+				if (data[this].opts.keyboard && !this.attr('tabindex')) {
+					this.attr('tabindex', '-1');
+				}
 
 				// Check if we actually need these scrollbars
 				if (rootWrap.height() > contentWrap.height() && rootWrap.width() > contentWrap.width()) {
@@ -425,6 +432,49 @@
 				if (data[this].opts.blackberry && navigator.userAgent.toLowerCase().search('blackberry') != -1) {
 					eventMethods['scrollStarMouseUp'] = eventMethods['ignore'];
 					eventMethods['dragMouseDown'] = eventMethods['bbMouseDown'];
+				}
+
+				// Keyboard support
+				if (data[this].opts.keyboard) {
+					var KD = data[this].opts.keyboardDistance;
+					this.keydown(function(event) {
+						var used;
+						if (axis == 'X') {
+							switch (event.which) {
+								case 37:
+									methods.move.call($(this), -KD, 'X');
+									used = true;
+									break;
+								case 39:
+									methods.move.call($(this), KD, 'X');
+									used = true;
+									break;
+							}
+						} else {
+							switch (event.which) {
+								case 38:
+									methods.move.call($(this), -KD, 'Y');
+									used = true;
+									break;
+								case 40:
+									methods.move.call($(this), KD, 'Y');
+									used = true;
+									break;
+								case 33:
+									methods.moveContent.call($(this), -$(this).height(), 'Y');
+									used = true;
+									break;
+								case 34:
+									methods.moveContent.call($(this), $(this).height(), 'Y');
+									used = true;
+									break;
+							}
+						}
+
+						if (used) {
+							event.preventDefault();
+						}
+					});
 				}
 
 				// Touch support

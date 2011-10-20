@@ -88,6 +88,12 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **force**:
   - Default: false
   - Use: Disable the check for the need of scrollbars
+ - **keyboard**:
+  - Default: true
+  - Use: Enabled/Disable keyboard support
+ - **keyboardDistance**:
+  - Default: 10
+  - Use: Distance to scroll for Up/Down, Left/Right arrow keys. **Note**: Page Up and Page Down will always scroll the size of your element.
 
 # Examples.
 
