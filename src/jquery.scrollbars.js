@@ -584,10 +584,6 @@
 						top: distance
 					});
 
-					if (distance == max) {
-						distance = distance - 1;
-					}
-
 					trackDistance = dragCon.height() - drag.height();
 					notVisible = contentWrap.height() - rootWrap.height();
 					distanceRatio = notVisible / trackDistance;

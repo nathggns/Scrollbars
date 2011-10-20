@@ -1,2 +1,2 @@
-# Version 1.2
- - Add keyboard support **(Up/Down/Left/Right/PageDwn/PageUp)**
+# Version 1.2.1
+ - Fix wierd scroll distance bug
