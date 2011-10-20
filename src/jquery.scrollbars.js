@@ -102,7 +102,7 @@
 					temp.addClass('dragConX');
 					$('body').append(temp);
 
-					xPadding = data[this].opts.xpadding = parseFloat(temp.outerHeight());
+					xPadding = data[this].opts.xpadding = parseFloat(temp.height());
 					temp.remove();
 				}
 
@@ -111,7 +111,7 @@
 					temp.addClass('dragConY');
 					$('body').append(temp);
 
-					yPadding = data[this].opts.ypadding = parseFloat(temp.outerWidth());
+					yPadding = data[this].opts.ypadding = parseFloat(temp.width());
 
 					temp.remove();
 				}
