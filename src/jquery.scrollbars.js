@@ -2,9 +2,9 @@
 (function($) {
 	$.scrollbars = function(method) {
 		$('*').scrollbars(method);
-	}
+	};
 	$.fn.scrollbars = function(method) {
-		var data = {}
+		var data = {};
 		var defaults = {
 			'ypadding': 'auto',
 			'xpadding': 'auto',
@@ -18,7 +18,7 @@
 			'touch': true,
 			'blackberry': true,
 			'force': false
-		}
+		};
 		
 		var methods = {
 			init: function(options) {
@@ -26,7 +26,7 @@
 				data[this] = {
 					opts: opts,
 					ele: this
-				}
+				};
 
 				// Create a reference to this
 				var ele = this;
@@ -40,7 +40,7 @@
 				need = need || overflowX == 'auto' || overflowX == 'scroll';
 				need = need || overflowY == 'auto' || overflowY == 'scroll';
 
-				if (!need && !opts.force) return;
+				if (!need && !opts.force) { return false; }
 
 				// Wait until all images have loaded.
 				var imgs = this.find('img'),
@@ -55,21 +55,23 @@
 						imgs: imgs,
 						len: imgsLen,
 						load: imgsLoad
-					}
+					};
 					$.each(imgs, function(i, img) {
 						var image = new Image;
 						$(image).bind('load error', function(event) {
 							data[id].load++;
-							if (event.type == 'error') return;
+							if (event.type == 'error') { return false; }
 
 							if (data[id].load == data[id].len) {
 								methods.prepare.call(ele);
 							}
+							return true;
 						});
 
 						image.src = img.src;
 					});
 				}
+				return true;
 			},
 			prepare: function() {
 				// Create a reference to this
@@ -116,14 +118,14 @@
 				var contentWrap = $(document.createElement('div'));
 				contentWrap.addClass(id).addClass('contentWrap');
 				this.wrapInner(contentWrap);
-				var contentWrap = this.find('.contentWrap');
+				contentWrap = this.find('.contentWrap');
 				data[this].contentWrap = contentWrap;
 
 				// Wrap with rootWrap
 				var rootWrap = $(document.createElement('div'));
 				rootWrap.addClass(id).addClass('rootWrap');
 				this.wrapInner(rootWrap);
-				var rootWrap = this.find('.rootWrap');
+				rootWrap = this.find('.rootWrap');
 				data[this].rootWrap = rootWrap;
 
 				// Lock our rootWraps size
@@ -167,7 +169,9 @@
 				this.append(dragCon);
 				data[this][axis] = {
 					dragCon: dragCon
-				}
+				};
+
+				var ratio, dragSize;
 
 				if (axis == 'X') {
 
@@ -182,8 +186,8 @@
 					}
 
 					// Calculate dragSize
-					var ratio = dragCon.width() / contentWrap.width();
-					var dragSize = data[this].opts.draggerwidth;
+					ratio = dragCon.width() / contentWrap.width();
+					dragSize = data[this].opts.draggerwidth;
 					dragSize = dragSize == 'auto' ? +(dragCon.width() * ratio) : dragSize;
 					dragSize = dragSize < 10 ? 10 : dragSize;
 					dragSize = dragSize > (dragCon.width() - 10) ? dragCon.width() - 10 : dragSize;
@@ -200,8 +204,8 @@
 					}
 
 					// Calculate dragSize
-					var ratio = dragCon.height() / contentWrap.height();
-					var dragSize = data[this].opts.draggerheight;
+					ratio = dragCon.height() / contentWrap.height();
+					dragSize = data[this].opts.draggerheight;
 					dragSize = dragSize == 'auto' ? +(dragCon.height() * ratio) : dragSize;
 					dragSize = dragSize < 10 ? 10 : dragSize;
 					dragSize = dragSize > (dragCon.height() - 10) ? dragCon.height() - 10 : dragSize;
@@ -260,13 +264,14 @@
 						$('.scrollRoot').each(function() {
 							var drag = $(this).find('.drag' + axis);
 							if (drag.data('move')) {
+								var distance;
 								if (axis == 'X') {
-									var distance = event.pageX - drag.data('move');
-									methods.move.call($(this), distance, axis)
+									distance = event.pageX - drag.data('move');
+									methods.move.call($(this), distance, axis);
 									drag.data('move', event.pageX);
 								} else {
-									var distance = event.pageY - drag.data('move');
-									methods.move.call($(this), distance, axis)
+									distance = event.pageY - drag.data('move');
+									methods.move.call($(this), distance, axis);
 									drag.data('move', event.pageY);
 								}
 							}
@@ -286,21 +291,22 @@
 					clickScrollUp: function(event) {
 						var dragCon = $('.dragCon' + axis + '.' + id);
 						if ($(event.srcElement).hasClass('drag')) {
-							return;
+							return false;
 						}
 						if (!dragCon.data('mousedown')) {
-							return;
+							return false;
 						}
 						dragCon.data('mousedown', false);
 						var drag = $(this).find('.drag');
+						var current;
 
 						if (axis == 'X') {
-							var current = event.pageX;
+							current = event.pageX;
 							current = current - drag.offset().left;
 							current = current - (drag.width() / 2);
 							methods.move.call($('.scrollRoot.' + id), current, axis);
 						} else {
-							var current = event.pageY;
+							current = event.pageY;
 							current = current - drag.offset().top;
 							current = current - (drag.height() / 2);
 							methods.move.call($('.scrollRoot.' + id), current, axis);
@@ -310,7 +316,7 @@
 					},
 					clickScrollDown: function(event) {
 						if ($(event.srcElement).hasClass('drag')) {
-							return;
+							return false;
 						}
 						if (!$(this).data('stayOff')) {
 							$(this).data('mousedown', true);
@@ -413,17 +419,17 @@
 					ignore: function() {
 						// Ignore
 					}
-				}
+				};
 
-				// Blackberry support (disabled for now)
+				// Blackberry support
 				if (data[this].opts.blackberry && navigator.userAgent.toLowerCase().search('blackberry') != -1) {
 					eventMethods['scrollStarMouseUp'] = eventMethods['ignore'];
 					eventMethods['dragMouseDown'] = eventMethods['bbMouseDown'];
 				}
 
 				// Touch support
-				var uAgent = navigator.userAgent.toLowerCase()
-				var isTouch = uAgent.search('iphone') > -1 || uAgent.search('ipod') > -1 || uAgent.search('ipad') > -1 || uAgent.search('android') > -1;
+				var uAgent = navigator.userAgent.toLowerCase(),
+					isTouch = uAgent.search('iphone') > -1 || uAgent.search('ipod') > -1 || uAgent.search('ipad') > -1 || uAgent.search('android') > -1;
 				if (data[this].opts.touch && isTouch) {
 					var pure = this.find('.contentWrap').get(0);
 					var pdrag = drag.get(0);
@@ -433,20 +439,18 @@
 
 					pdrag.ontouchstart = function(event) {
 						pure.ontouchstart(event, true);
-					}
+					};
 					pdrag.ontouchend = function(event) {
 						pure.ontouchend(event, true);
-					}
+					};
 					pdrag.ontouchmove = function(event) {
 						pure.ontouchmove(event, true);
-					}
+					};
 				}
 
 				drag.mousedown(eventMethods['dragMouseDown']);
 
-				$('*')
-					.mousemove(eventMethods['scrollStarMouseMove'])
-					.mouseup(eventMethods['scrollStarMouseUp']);
+				$('*').mousemove(eventMethods['scrollStarMouseMove']).mouseup(eventMethods['scrollStarMouseUp']);
 
 				// Mousewheel support
 				if ($().mousewheel && data[this].opts.mousewheel) {
@@ -455,28 +459,24 @@
 
 				// clicktoscroll support
 				if (data[this].opts.clicktoscroll) {
-					dragCon
-						.mouseup(eventMethods['clickScrollUp'])
-						.mousedown(eventMethods['clickScrollDown']);
+					dragCon.mouseup(eventMethods['clickScrollUp']).mousedown(eventMethods['clickScrollDown']);
 					
 					drag.get(0).ontouchend = function(event) {
 						dragCon.data('stayOff', true);
 						dragCon.data('mousedown', false);
-					}
+					};
 				}
 
 				// Autohide
 				if (data[this].opts.autohide) {
-					this.hover(eventMethods['hideEnter'], eventMethods['hideOut'])
+					this.hover(eventMethods['hideEnter'], eventMethods['hideOut']);
 				}
 
 				// mousedrag
 				if (data[this].opts.mousedrag) {
 					this.mousedown(eventMethods['mouseDragDown']);
 
-					$('*')
-						.mousemove(eventMethods['mouseDragStarMove'])
-						.mouseup(eventMethods['mouseDragStarUp']);
+					$('*').mousemove(eventMethods['mouseDragStarMove']).mouseup(eventMethods['mouseDragStarUp']);
 
 					this.css({cursor:data[this].opts.mousedragcursor});
 				}
@@ -487,20 +487,22 @@
 				var contentWrap = this.find('.contentWrap');
 				var rootWrap = this.find('.rootWrap');
 				var returnV = false;
+				var current;
 
 				if (axis == 'X') {
-					var current = drag.css('left');
+					current = drag.css('left');
 				} else {
-					var current = drag.css('top')
+					current = drag.css('top');
 				}
 
 				current = (current == 'auto') ? 0 : parseFloat(current);
 				var distance = current + offset;
 
 				var min = 0;
+				var max, trackDistance, distanceRatio, notVisible;
 
 				if (axis == 'X') {
-					var max = dragCon.width() - drag.width();
+					max = dragCon.width() - drag.width();
 
 					if (distance < min) {
 						distance = min;
@@ -515,18 +517,18 @@
 						left: distance
 					});
 
-					var trackDistance = dragCon.width() - drag.width(),
-						notVisible = contentWrap.width() - rootWrap.width(),
-						distanceRatio = notVisible / trackDistance,
-						distance = (distance * distanceRatio) * -1;
+					trackDistance = dragCon.width() - drag.width();
+					notVisible = contentWrap.width() - rootWrap.width();
+					distanceRatio = notVisible / trackDistance;
+					distance = (distance * distanceRatio) * -1;
 
 					contentWrap.css({ left: distance });
 
 				} else {
-					var max = dragCon.height() - drag.height();
+					max = dragCon.height() - drag.height();
 
-					if (distance < min) distance = min;
-					if (distance > max) distance = max;
+					if (distance < min) { distance = min; }
+					if (distance > max) { distance = max; }
 
 					drag.css({
 						top: distance
@@ -536,10 +538,10 @@
 						distance = distance - 1;
 					}
 
-					var	trackDistance = dragCon.height() - drag.height(),
-						notVisible = contentWrap.height() - rootWrap.height(),
-						distanceRatio = notVisible / trackDistance,
-						distance = (distance * distanceRatio) * -1;
+					trackDistance = dragCon.height() - drag.height();
+					notVisible = contentWrap.height() - rootWrap.height();
+					distanceRatio = notVisible / trackDistance;
+					distance = (distance * distanceRatio) * -1;
 					
 					contentWrap.css({ top: distance });
 				}
@@ -640,7 +642,7 @@
 				this.html(this.find('.contentWrap').html());
 				this.removeClass('scrollRoot').removeClass('dragXUsed').removeClass('dragYUsed');
 			}
-		}
+		};
 		var arg = arguments;
 		if (methods[method]) {
 			return this.each(function() {
@@ -653,5 +655,6 @@
 		} else {
 			$.error('Method ' + method + ' does not exist on jQuery.scrollbars');
 		}
+		return true;
 	}
 })(jQuery);
