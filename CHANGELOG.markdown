@@ -1,2 +1,3 @@
-# Version 1.2.1
- - Fix wierd scroll distance bug
+# Version 1.2.2
+
+ - Added persistant scrolling

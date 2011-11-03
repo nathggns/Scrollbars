@@ -19,8 +19,14 @@
 			'blackberry': true,
 			'force': false,
 			'keyboard': true,
-			'keyboardDistance': 10
+			'keyboardDistance': 10,
+			'persistant': true
 		};
+
+		var seperators = {
+			"classList-tagName": "++__++",
+			"pId-key": "__++__"
+		}
 		
 		var methods = {
 			init: function(options) {
@@ -29,6 +35,8 @@
 					opts: opts,
 					ele: this
 				};
+
+				if (typeof localStorage !== "object") data[this].opts.persistant = false;
 
 				// Create a reference to this
 				var ele = this;
@@ -164,11 +172,47 @@
 					this.addClass('dragYUsed');
 				}
 			},
+			getId: function(ele) {
+				var ele = ele ? ele : this;
+				var pId;
+
+				if (!pId && (ele.attr('id'))) pId = "id-" + pId;
+				if (!pId && (pId = ele.attr('name'))) pId = "name-" + ele.get(0).tagName + "-" + pId; 
+				if (!pId) {
+					pId = "hybrid-";
+
+					var className = $.trim(ele.get(0).className.replace(id,"").replace(/scroll\-[0-9]+/, "").replace("scrollRoot", "").replace("dragXUsed", "").replace("dragYUsed", ""));
+					pId = pId + className + seperators['classList-tagName'] + ele.get(0).tagName.toLowerCase();
+				}
+
+				return pId
+			},
+			getElementFromId: function(id) {
+				var id = id ? id : this;
+
+				var parts = id.split("-");
+
+				switch (parts[0]) {
+					case 'id':
+						return $("#" + parts.slice(1).join('-'));
+					case 'name':
+						return $(parts[1] + "[name=" + parts.slice(2).join('-') + "]");
+					case 'hybrid':
+						var sParts = parts.slice(1).join('-').split(seperators['classList-tagName']);
+						var classList = sParts[0];
+						var tagName = sParts[1];
+
+						var className = "." + classList.split(" ").join(".");
+
+						return $(tagName + className);
+				}
+			},
 			generate: function(axis) {
 				// Retrieve needed values
 				var contentWrap = data[this].contentWrap,
 					rootWrap = data[this].rootWrap,
 					id = data[this].id;
+
 
 				// Add our drag container
 				var dragCon = $(document.createElement('div'));
@@ -240,6 +284,11 @@
 				// Autohide
 				if (data[this].opts.autohide) {
 					drag.fadeTo(0, 0);
+				}
+
+				var distance = parseFloat(methods.getIdData.call(this, axis + "-distance"));
+				if (distance) {
+					methods.move.call(this, distance, axis);
 				}
 
 				return true;
@@ -567,6 +616,8 @@
 						left: distance
 					});
 
+					methods.setIdData.call(this, axis + "-distance", distance);
+
 					trackDistance = dragCon.width() - drag.width();
 					notVisible = contentWrap.width() - rootWrap.width();
 					distanceRatio = notVisible / trackDistance;
@@ -583,6 +634,8 @@
 					drag.css({
 						top: distance
 					});
+
+					methods.setIdData.call(this, axis + "-distance", distance);
 
 					trackDistance = dragCon.height() - drag.height();
 					notVisible = contentWrap.height() - rootWrap.height();
@@ -649,6 +702,8 @@
 						left: distance
 					});
 
+					methods.setIdData.call(this, axis + "-distance", distance);
+
 				} else {
 					min = 0;
 					max = contentWrap.height() - rootWrap.height();
@@ -680,6 +735,8 @@
 					drag.css({
 						top: distance
 					});
+
+					methods.setIdData.call(this, axis + "-distance", distance);
 				}
 
 				return returnV;
@@ -687,6 +744,12 @@
 			destroy: function() {
 				this.html(this.find('.contentWrap').html());
 				this.removeClass('scrollRoot').removeClass('dragXUsed').removeClass('dragYUsed');
+			},
+			setIdData: function(key, data) {
+				localStorage[methods.getId.call(this) + seperators["pId-key"] + key] = data;
+			},
+			getIdData: function(key) {
+				return localStorage[methods.getId.call(this) + seperators["pId-key"] + key];
 			}
 		};
 		var arg = arguments;

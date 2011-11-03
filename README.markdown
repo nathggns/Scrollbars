@@ -94,6 +94,9 @@ If you pass an array to the plugin, we can change certain things, such as:
  - **keyboardDistance**:
   - Default: 10
   - Use: Distance to scroll for Up/Down, Left/Right arrow keys. **Note**: Page Up and Page Down will always scroll the size of your element.
+ - **persistant**:
+  - Default: true
+  - Use: Does the content stay **scrolled** after refresing the page? Requires **localStorage** support in the browser.
 
 # Examples.
 
