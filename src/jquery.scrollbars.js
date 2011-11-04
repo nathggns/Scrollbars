@@ -20,7 +20,8 @@
 			'force': false,
 			'keyboard': true,
 			'keyboardDistance': 10,
-			'persistant': true
+			'persistant': true,
+			'preciseclicktoscroll': true
 		};
 
 		var seperators = {
@@ -36,7 +37,7 @@
 					ele: this
 				};
 
-				if (typeof localStorage !== "object") data[this].opts.persistant = false;
+				if (typeof sessionStorage !== "object") data[this].opts.persistant = false;
 
 				// Create a reference to this
 				var ele = this;
@@ -746,10 +747,13 @@
 				this.removeClass('scrollRoot').removeClass('dragXUsed').removeClass('dragYUsed');
 			},
 			setIdData: function(key, data) {
-				localStorage[methods.getId.call(this) + seperators["pId-key"] + key] = data;
+				sessionStorage[methods.getId.call(this) + seperators["pId-key"] + key] = data;
 			},
 			getIdData: function(key) {
-				return localStorage[methods.getId.call(this) + seperators["pId-key"] + key];
+				var id = methods.getId.call(this);
+				var ele = methods.getElementFromId(id);
+				if (ele.length > 1) return false;
+				return sessionStorage[id + seperators["pId-key"] + key];
 			}
 		};
 		var arg = arguments;

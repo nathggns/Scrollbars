@@ -2,9 +2,17 @@
 
 Scrollbars is an easy to use, jQuery plugin which enables you to create themeable scrollbars.
 
-# Demo
+# Important Links
 
-Check out the [github page](http://nathggns.github.com/Scrollbars) for demos and more!
+[FAQs](https://github.com/nathggns/Scrollbars/wiki/FAQs)
+
+[Theme Writing Guide](https://github.com/nathggns/Scrollbars/wiki/Theme-Writing-Guide)
+
+[Options](https://github.com/nathggns/Scrollbars/wiki/Options)
+
+[Important Information](https://github.com/nathggns/Scrollbars/wiki/Important-Information)
+
+[Demo](http://nathggns.github.com/Scrollbars)
 
 # Usage
 
@@ -37,133 +45,3 @@ Then initialize
     	$('*').scrollbars();
     })
 	</script>
-
-
-# Useful information.
-
-**Is it safe to use Scrollbars on the * selector?**
-
-Yes, Scrollbars detects if it is needed. The speed difference is unnoticable. Of course, this isn't ideal if your running this on lots of elements, or on a production server.
-
-**Is it safe to not include the mousewheel plugin?**
-
-Yes, Scrollbars will just turn off mousewheel support if it is absent.
-
-**Does touch support work on all platforms?**
-
-No, touch support is limited to iOS at the current moment.
-
-**What options do we have?**
-
-If you pass an array to the plugin, we can change certain things, such as:
-
- - **xpadding**:
-  - Default: auto
-  - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
- - **ypadding**:
-  - Default: auto
-  - Use: Changes the amount of space reserved for the scrollbars. Make it **0** if you want to make the scrollbars overlay the content.
- - **mousewheel**:
-  - Default: true
-  - Use: Enable/Disable mousewheel support.
- - **mousedrag**:
-  - Default: false
-  - Use: Enabled/Disable mouse drag support
- - **mousedragcursor**:
-  - Default: move
-  - Use: Choose cursor that is used for mouse drag
- - **clicktoscroll**:
-  - Default: true
-  - Use: Allow clicking the dragger container to scroll.
- - **draggerheight**:
-  - Default: auto
-  - Use: Height of the dragger.
-  - Min: 10
- - **autohide**:
-  - Default: false
-  - Use: Enable/Disable autohiding of the dragger
- - **touch**:
-  - Default: true
-  - Use: Enable/Disable touch support
- - **force**:
-  - Default: false
-  - Use: Disable the check for the need of scrollbars
- - **keyboard**:
-  - Default: true
-  - Use: Enabled/Disable keyboard support
- - **keyboardDistance**:
-  - Default: 10
-  - Use: Distance to scroll for Up/Down, Left/Right arrow keys. **Note**: Page Up and Page Down will always scroll the size of your element.
- - **persistant**:
-  - Default: true
-  - Use: Does the content stay **scrolled** after refresing the page? Requires **localStorage** support in the browser.
-
-# Examples.
-
-```javascript
-// Default scrollbars
-$('*').scrollbars();
-
-// Overlay scrollbars
-$('*').scrollbars({
-	xpadding:0,
-  ypadding:0
-});
-
-// Disable mousewheel support
-$('*').scrollbars({
-	mousewheel: false
-})
-
-// Enable mousedrag support
-$('*').scrollbars({
-	mousedrag: true
-});
-
-// Enable mousedrag support and change cursor to pointer
-$('*').scrollbars({
-	mousedrag: true,
-	mousedragcursor: 'pointer'
-});
-
-// Disable clicktoscroll
-$('*').scrollbars({
-	clicktoscroll: false
-});
-
-// Make dragger 50px tall
-$('*').scrollbars({
-	draggerheight: 50
-});
-
-// Enable autohiding of the dragger
-$('*').scrollbars({
-  autohide: true
-});
-
-// Disable touch
-$('*').scrollbars({
-  touch: false
-});
-```
-
-# Screenshots.
-
-**Lion Theme**
-
-[![lion them](http://s.nath.is/24_09_11_18_47_39.png)](http://s.nath.is/24_09_11_18_47_39.png)
-
-**Lion Theme (overlay)**
-
-[![lion theme (overlay)](http://s.nath.is/24_09_11_18_48_47.png)](http://s.nath.is/24_09_11_18_48_47.png)
-
-# How to write a theme.
-
-It's easy to write a theme for this thing, you just need to write a CSS file, and override a couple of classes. Here is a list of what classes are what
-
- - .dragConY - The Y axis drag container
- - .dragConX - The X axis drag container
- - .dragY    - The Y axis dragger
- - .dragX    - The X axis dragger
-
-If you need anymore help, just look at the lion theme.
