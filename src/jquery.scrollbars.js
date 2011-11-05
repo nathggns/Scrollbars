@@ -755,13 +755,21 @@
 				this.removeClass('scrollRoot').removeClass('dragXUsed').removeClass('dragYUsed');
 			},
 			setIdData: function(key, data) {
-				sessionStorage[methods.getId.call(this) + seperators["pId-key"] + key] = data;
+				try {
+					return sessionStorage[methods.getId.call(this) + seperators["pId-key"] + key] = data;
+				} catch (e) {
+					return false;
+				}
 			},
 			getIdData: function(key) {
 				var id = methods.getId.call(this);
 				var ele = methods.getElementFromId(id);
 				if (ele.length > 1) return false;
-				return sessionStorage[id + seperators["pId-key"] + key];
+				try {
+					return sessionStorage[id + seperators["pId-key"] + key];
+				} catch (e) {
+					return false;
+				}
 			}
 		};
 		var arg = arguments;
