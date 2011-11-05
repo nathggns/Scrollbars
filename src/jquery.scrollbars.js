@@ -37,7 +37,15 @@
 					ele: this
 				};
 
-				if (typeof sessionStorage !== "object") data[this].opts.persistant = false;
+				var noSessionStorage = false;
+
+				try {
+					noSessionStorage = !sessionStorage;
+				} catch (e) {
+					noSessionStorage = true;
+				}
+
+				if (noSessionStorage) data[this].opts.persistant = false;
 
 				// Create a reference to this
 				var ele = this;
@@ -177,7 +185,7 @@
 				var ele = ele ? ele : this;
 				var pId;
 
-				if (!pId && (ele.attr('id'))) pId = "id-" + pId;
+				if (!pId && (pId = ele.attr('id'))) pId = "id-" + pId;
 				if (!pId && (pId = ele.attr('name'))) pId = "name-" + ele.get(0).tagName + "-" + pId; 
 				if (!pId) {
 					pId = "hybrid-";
