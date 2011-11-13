@@ -12,6 +12,10 @@
 	outline: none;
 }
 
+body {
+	overflow: hidden;
+}
+
 .scrollElement.dragConX {
 	height: 10px;
 	left: 0;
