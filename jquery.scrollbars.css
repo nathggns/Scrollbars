@@ -65,4 +65,6 @@ body {
 .scrollElement.contentWrap {
 	float: left;
 	position: relative;
+	min-width: 100%;
+	min-height: 100%;
 }
