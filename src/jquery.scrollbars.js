@@ -325,7 +325,7 @@
 
 				// Initial hide of elements for autohide options
 				if (data.opts.scrollbarAutohide) {
-					dragger.fadeTo(0, 0);
+					dragger.parent().fadeTo(0, 0);
 				}
 
 				methods.setData.call(obj, this);
@@ -491,13 +491,14 @@
 				}
 
 				if (data.opts.scrollbarAutohide) {
+					var data = methods.getData.call(obj);
 					events['objMouseEnter'] = [
-						obj,
+						$(".scrollElement." + data['id']),
 						"mouseenter",
 						function(e, obj, args) {
-							var data = methods.getData(obj);
-							data.X.dragger.fadeTo(1, 500);
-							data.Y.dragger.fadeTo(1, 500);
+							var data = methods.getData.call(obj);
+							data.X.dragCon.stop().fadeTo(500, 1);
+							data.Y.dragCon.stop().fadeTo(500, 1);
 						}
 					];
 
@@ -505,9 +506,10 @@
 						obj,
 						"mouseout",
 						function(e, obj, args) {
-							var data = methods.getData(obj);
-							data.X.dragger.fadeTo(0, 500);
-							data.Y.dragger.fadeTo(0, 500);
+							var data = methods.getData.call(obj);
+							//if ($(e.currentTarget).hasClass(data['id'])) return false;
+							data.X.dragCon.stop().fadeTo(500, 0);
+							data.Y.dragCon.stop().fadeTo(500, 0);
 						}
 					];
 				}
