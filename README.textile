@@ -40,9 +40,9 @@ h2(#options-contents). Options table of contents
 * "xSpace and ySpace":#options-xspace
 * "forceScrollbars":#options-force
 * "keyboardControl":#options-keyboard
-* "persistantSize":#options-persistantSize
+* "persistantSize":#options-persistantsize
 * "overlap":#options-overlap
-* "draggerSize":#options-draggerSize
+* "draggerSize":#options-draggersize
 * "device-touch, device-blackberry and device-other":#options-device
 * "scrollbarAutohide":#options-hide
 * "mousewheelSupport":#options-mousewheel
@@ -89,7 +89,7 @@ Accepts any boolean.
 
 </blockquote>
 
-h3(#options-persistantSize). persistantSize
+h3(#options-persistantsize). persistantSize
 
 <blockquote>
 Toggles support for fluid width elements.
@@ -119,7 +119,7 @@ Accepts any boolean.
 
 </blockquote>
 
-h3(#options-draggerSize). draggerSize
+h3(#options-draggersize). draggerSize
 
 <blockquote>
 Controls the height/width of the scrollbar.
@@ -189,33 +189,33 @@ You theme your scrollbars by applying css styles to certain elements.
 
 h2(#classes-contents). Classes Table Of Contents
 
-* "scrollElement":#classes-scrollElement
-* "axisInUseX and axisInUseY":#classes-axisInUse
-* "rootWrap":#classes-rootWrap
-* "dragCon, dragConX and dragConY":#classes-dragCon
+* "scrollElement":#classes-scrollelement
+* "axisInUseX and axisInUseY":#classes-axisinuse
+* "rootWrap":#classes-rootwrap
+* "dragCon, dragConX and dragConY":#classes-dragcon
 * "drag, dragX, dragY":#classes-drag
-* "dragConInner":#classes-dragConInner
-* "contentWrap":#classes-contentWrap
+* "dragConInner":#classes-dragconinner
+* "contentWrap":#classes-contentwrap
 
-h3(#classes-scrollElement). scrollElement
+h3(#classes-scrollelement). scrollElement
 
 <blockquote>
 Just an internal class added to all elements *Scrollbars V2* touches.
 </blockquote>
 
-h3(#classes-axisInUse). axisInUseX and axisInUseY
+h3(#classes-axisinsse). axisInUseX and axisInUseY
 
 <blockquote>
 A class added to your element when said axis in use.
 </blockquote>
 
-h3(#classes-rootWrap). rootWrap
+h3(#classes-rootwrap). rootWrap
 
 <blockquote>
 A wrapper added to your content that gives space for your scrollbars.
 </blockquote>
 
-h3(#classes-dragCon). dragCon, dragConX and dragConY
+h3(#classes-dragcon). dragCon, dragConX and dragConY
 
 <blockquote>
 A class added to the container for your scrollbar.
@@ -227,13 +227,13 @@ h3(#classes-drag). drag, dragX, dragY
 A class added to the actual scrollbar.
 </blockquote>
 
-h3(#classes-dragConInner). dragConInner
+h3(#classes-dragconinner). dragConInner
 
 <blockquote>
 An inerwrap inside the dragCon
 </blockquote>
 
-h3(#classes-contentWrap). contentWrap
+h3(#classes-contentwrap). contentWrap
 
 <blockquote>
 A wrapper added to your content to determine the size of it.
