@@ -521,8 +521,10 @@
 						function(e, obj, args) {
 							var delta = -args[1];
 							var axis = args[2] != 0 ? 'X' : 'Y';
-							var distance = delta < 0 ? -5 : delta > 0 ? 5 : 0;
+							var distance = delta < 0 ? -3 : delta > 0 ? 3 : 0;
 							methods.move.call(obj, distance, axis);
+
+							e.preventDefault();
 						}
 					];
 				}
