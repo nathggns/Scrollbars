@@ -1,9 +1,5 @@
 /*! jQuery Scrollbars | License: https://github.com/nathggns/Scrollbars/blob/master/LICENSE */
-
 (function($) {
-	var version = "1.3b1";
-	var channel = "beta";
-
 	$.scrollbars = function() {
 		return $("*").scrollbars();	
 	};
@@ -20,13 +16,10 @@
 			"device-touch": false,
 			"device-blackberry": false,
 			"device-other": true,
-			"scrollBarAutohide": false,
-			"debug": false,
+			"scrollbarAutohide": false,
 			"dragContent": false,
 			"mousewheelSupport": true
 		};
-
-		if (channel == "beta") defaults["debug"] = true;
 
 		var classes = {
 			"rootElement": "scrollRoot",
@@ -331,7 +324,7 @@
 				}
 
 				// Initial hide of elements for autohide options
-				if (data.opts.scrollBarAutohide) {
+				if (data.opts.scrollbarAutohide) {
 					dragger.fadeTo(0, 0);
 				}
 
@@ -493,6 +486,28 @@
 							methods.setData.call(obj, data);
 
 							$("body").removeClass("contentDragActive");
+						}
+					];
+				}
+
+				if (data.opts.scrollbarAutohide) {
+					events['objMouseEnter'] = [
+						obj,
+						"mouseenter",
+						function(e, obj, args) {
+							var data = methods.getData(obj);
+							data.X.dragger.fadeTo(1, 500);
+							data.Y.dragger.fadeTo(1, 500);
+						}
+					];
+
+					events['objMouseOut'] = [
+						obj,
+						"mouseout",
+						function(e, obj, args) {
+							var data = methods.getData(obj);
+							data.X.dragger.fadeTo(0, 500);
+							data.Y.dragger.fadeTo(0, 500);
 						}
 					];
 				}
@@ -755,20 +770,6 @@
 			return returns.length < 1 ? jQReturn : returns.length > 1 ? returns : returns[0];
 		} else if (typeof(method) === 'object' || !method) {
 			var opts = $.extend(defaults, args[0]);
-			if (opts.debug) {
-				console.log("Scrollbars Version - " + version);
-				try {
-					$.getJSON("callHome.php", null, function(data) {
-						var latestBeta = data.beta.version + "b" + data.beta.beta;
-
-						if (latestBeta != version) {
-							console.log("Update available. Email nat@nath.is");
-						}
-					});	
-				} catch (e) {
-					
-				}
-			}
 			return this.each(function() {
 				methods["init"].apply($(this), args);
 			});
