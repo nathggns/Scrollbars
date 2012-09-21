@@ -18,7 +18,9 @@
 			"device-other": true,
 			"scrollbarAutohide": false,
 			"dragContent": false,
-			"mousewheelSupport": true
+			"mousewheelSupport": true,
+			"xEnabled": true,
+			"yEnabled": true
 		};
 
 		var classes = {
@@ -221,8 +223,8 @@
 				}
 				
 				// Generate our scrollbars
-				methods.generate.call(obj, 'X');
-				methods.generate.call(obj, 'Y');
+				if (data.opts.xEnabled) methods.generate.call(obj, 'X');
+				if (data.opts.yEnabled) methods.generate.call(obj, 'Y');
 			},
 			"generate": function(axis) {
 				// Create scopeless copy of this
