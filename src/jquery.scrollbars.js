@@ -32,7 +32,7 @@
 			"axisInUseY": "axisInUseY",
 			"dragger": "drag",
 			"contentDrag": "contentDrag"
-		}
+		};
 
 		var methods = {
 			"init": function(options) {
@@ -45,7 +45,7 @@
 					obj: obj,
 					X: {},
 					Y: {}
-				}
+				};
 
 				var ua = navigator.userAgent;
 
@@ -81,10 +81,12 @@
 					"objs": imgs,
 					"len": imgsLen,
 					"load": imgsLoad
-				}
+				};
 
 				// Write data to our object
 				methods.setData.call(this, data);
+
+				methods.prePrepare.call(this);
 
 				if (imgsLen === 0) {
 					return methods.prepare.call(this);
@@ -105,7 +107,7 @@
 					});
 				}
 			},
-			"prepare": function() {
+			"prePrepare": function() {
 				// Create a scopeless copy of this
 				var obj = this;
 
@@ -114,6 +116,13 @@
 					obj.css('position', 'relative');
 				}
 
+				// Add our id as a class, and the scrollRoot class
+				obj.addClass(classes['scrollElement']).addClass(classes['rootElement']);
+			},
+			"prepare": function() {
+				// Create a scopeless copy of this
+				var obj = this;
+
 				// Get a copy of data
 				var data = methods.getData.call(obj);
 
@@ -121,7 +130,7 @@
 				var id = data['id'] = "scroll-" + Math.floor (Math.random() * 100000);
 
 				// Add our id as a class, and the scrollRoot class
-				obj.addClass(id).addClass(classes['scrollElement']).addClass(classes['rootElement']);
+				obj.addClass(id);
 
 				var xSpace = data.opts.xSpace,
 					ySpace = data.opts.ySpace;
@@ -180,7 +189,7 @@
 							methods.move.call(obj, posX, 'X');
 							var posY = methods.getScrollPos.call(obj, 'Y');
 							methods.move.call(obj, posY, 'Y');
-						} catch(e) { };
+						} catch(e) { }
 					});
 				}
 
@@ -213,7 +222,7 @@
 				
 				// Generate our scrollbars
 				methods.generate.call(obj, 'X');
-				methods.generate.call(obj, 'Y')
+				methods.generate.call(obj, 'Y');
 			},
 			"generate": function(axis) {
 				// Create scopeless copy of this
@@ -432,7 +441,7 @@
 								case 34:
 									methods.moveContent.call(obj, obj.height(), 'Y');
 									break;
-							}				
+							};				
 						}
 					];
 				}
@@ -587,7 +596,7 @@
 				var moveDefaults = {
 					"moveMethod": "distance",
 					"moveType": "pixels"
-				}
+				};
 
 				var moveOptions = $.extend(moveDefaults, options);
 
@@ -713,7 +722,7 @@
 					}
 				} else {
 					obj.html(data.contentWrap.html());
-					for (index in classes) {
+					for (var index in classes) {
 						obj.removeClass(classes[index]);
 						obj.removeClass(classes[index] + "X");
 						obj.removeClass(classes[index] + "Y");
@@ -780,5 +789,5 @@
 		} else {
 			$.error("No such method " + method + " on jQuery.scrollbars");
 		}
-	}
+	};
 })(jQuery);
