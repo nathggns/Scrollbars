@@ -52,7 +52,8 @@
 			dragger: 'drag',
 			draggerX: 'dragX',
 			draggerY: 'dragY',
-			contentDrag: 'contentDrag'
+			contentDrag: 'contentDrag',
+			unselectable: 'unselectable'
 		};
 
 		var methods = {
@@ -392,6 +393,7 @@
 								.addClass(classes.dragger)
 								.addClass(id)
 								.addClass(classes['dragger' + axis])
+								.attr('unselectable', 'on')
 								.appendTo(dragCon);
 
 				data[axis].dragger = dragger;
@@ -437,6 +439,9 @@
 						dragger,
 						'mousedown',
 						function(e, obj, axis) {
+
+							e.preventDefault();
+
 							var data = methods.getData.call(obj);
 							data.activeAxis = axis;
 							data.activePosition = axis === 'X' ?
@@ -445,7 +450,15 @@
 							methods.setData.call(obj, data);
 
 							$body.addClass('normalScrollingActive');
+							$body.addClass(classes.unselectable);
 
+							e.preventDefault();
+						}
+					],
+					draggerOnSelectStart: [
+						dragger,
+						'selectstart',
+						function(e) {
 							e.preventDefault();
 						}
 					],
@@ -453,6 +466,7 @@
 						$(document),
 						'mousemove',
 						function(e, obj) {
+
 							var data = methods.getData.call(obj);
 							var axis = data.activeAxis;
 							var pos = data.activePosition;
@@ -481,6 +495,7 @@
 							methods.setData.call(obj, data);
 
 							$body.removeClass('normalScrollingActive');
+							$body.removeClass(classes.unselectable);
 						},
 						'*'
 					],
@@ -643,7 +658,7 @@
 							var axis = args[2] !== 0 ? 'X' : 'Y';
 							var distance = delta < 0 ? -3 : delta > 0 ? 3 : 0;
 
-							distance *= data.mouseWheelMultiplier;
+							distance *= data.opts.mouseWheelMultiplier;
 
 							methods.move.call(obj, distance, axis);
 
