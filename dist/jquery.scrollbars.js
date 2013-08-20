@@ -237,34 +237,7 @@
 				// Make sure that rootWrap stays the same size as its parent
 				if (data.opts.persistantSize) {
 					$(window).resize(function() {
-						var data = methods.getData.call(obj);
-
-						data.rootWrap.css({
-							width: obj.width() - data.opts.ySpace,
-							height: obj.height() - data.opts.xSpace
-						});
-
-						$.each({
-							X: 'width',
-							Y: 'height'
-						}, function(axis, method) {
-
-							if (
-								data.rootWrap[method]() <
-								data.contentWrap[method]()
-							) {
-								methods.generate.call(obj, axis);
-							}
-
-							try {
-								methods.move.call(
-									obj,
-									methods.getScrollPos.call(obj, axis),
-									axis
-								);
-							} catch (e) {}
-
-						});
+						methods.update.apply(obj);
 					});
 				}
 
@@ -877,7 +850,11 @@
 
 				return percentage;
 			},
-			destroy: function(axis) {
+			destroy: function(axis, deleteAll) {
+
+				if (typeof deleteAll === 'undefined') {
+					deleteAll = true;
+				}
 
 				var obj = this;
 				var data = methods.getData.call(obj);
@@ -916,10 +893,10 @@
 					}
 				}
 
-				if (!axis || (
+				if (deleteAll && (!axis || (
 					!obj.hasClass(classes.axisInUseX) &&
 					!obj.hasClass(classes.axisInUseY)
-				)) {
+				))) {
 					obj.html(data.contentWrap.html());
 
 					for (var index in classes) {
@@ -946,6 +923,39 @@
 			},
 			removeData: function() {
 				return this.removeData('jQSData');
+			},
+			update: function() {
+				var obj = this;
+				var data = methods.getData.call(obj);
+
+				data.rootWrap.css({
+					width: obj.width() - data.opts.ySpace,
+					height: obj.height() - data.opts.xSpace
+				});
+
+				$.each({
+					X: 'width',
+					Y: 'height'
+				}, function(axis, method) {
+
+					if (
+						data.rootWrap[method]() <
+						data.contentWrap[method]()
+					) {
+						methods.generate.call(obj, axis);
+					} else {
+						methods.destroy.call(obj, axis, false);
+					}
+
+					try {
+						methods.move.call(
+							obj,
+							methods.getScrollPos.call(obj, axis),
+							axis
+						);
+					} catch (e) {}
+
+				});
 			}
 		};
 
