@@ -356,7 +356,6 @@
 									obj.hasClass(classes.axisInUseY);
 
 
-
 				data.overlapping = overlapping;
 
 				if (overlapping) {
@@ -400,12 +399,12 @@
 
 				if (axis === 'X') {
 					dragger.css({
-						left: data.ySpace,
+						left: data.opts.ySpace,
 						width: ratio + '%'
 					});
 				} else {
 					dragger.css({
-						top: data.xSpace,
+						top: data.opts.xSpace,
 						height: ratio + '%'
 					});
 				}
