@@ -2,6 +2,8 @@ h1(#title). Scrollbars V2
 
 *Scrollbars V2* has been completely refactored, from head to toe to give you the _amazing_ and the _fluid_ experience you expect from natural scrollbars with the _customizability_ of CSS.
 
+**Note:** Scrollbars V2 has been partially rewritten in Scrollbars V2.1.0. It has intended to be backwards compatible with V2, but this cannot be 100% assured. The API has remained exactly the same for existing features.
+
 h1(#table_of_contents). Table of contents
 
 * "Description":#desc
@@ -12,7 +14,7 @@ h1(#table_of_contents). Table of contents
 
 h1(#desc). Description
 
-*Scrollbars V2* is a jQuery plugin that allows you to theme any elements with the simple CSS you already know. It feature filled yet lightweight, the perfect combination to add that little spark to your special creation. 
+*Scrollbars V2* is a jQuery plugin that allows you to theme any elements with the simple CSS you already know. It feature filled yet lightweight, the perfect combination to add that little spark to your special creation.
 
 h1(#features). Features
 
