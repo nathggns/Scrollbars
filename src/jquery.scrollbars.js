@@ -28,6 +28,7 @@
 			scrollbarAutohide: false,
 			dragContent: false,
 			mousewheelSupport: true,
+			mouseWheelMultiplier: 1,
 			xEnabled: true,
 			yEnabled: true
 		};
@@ -632,9 +633,13 @@
 						obj,
 						'mousewheel',
 						function(e, obj, args) {
+							var data = methods.getData.call(obj);
 							var delta = -args[1];
 							var axis = args[2] !== 0 ? 'X' : 'Y';
 							var distance = delta < 0 ? -3 : delta > 0 ? 3 : 0;
+
+							distance *= data.opts.mouseWheelMultiplier;
+
 							methods.move.call(obj, distance, axis);
 
 							e.preventDefault();
@@ -727,8 +732,8 @@
 			move: function(distance, axis, options) {
 				var obj = this;
 				var moveDefaults = {
-					'moveMethod': 'distance',
-					'moveType': 'pixels'
+					moveMethod: 'distance',
+					moveType: 'pixels'
 				};
 
 				var moveOptions = $.extend(moveDefaults, options);

@@ -2,7 +2,7 @@ h1(#title). Scrollbars V2
 
 *Scrollbars V2* has been completely refactored, from head to toe to give you the _amazing_ and the _fluid_ experience you expect from natural scrollbars with the _customizability_ of CSS.
 
-**Note:** Scrollbars V2 has been partially rewritten in Scrollbars V2.1.0. It has intended to be backwards compatible with V2, but this cannot be 100% assured. The API has remained exactly the same for existing features.
+**Note:** Scrollbars V2 has been partially rewritten in Scrollbars V2.1.0. It has intended to be backwards compatible with V2, but this cannot be 100% assured. The API has remained exactly the same for existing features, accept for toggling device support.
 
 h1(#table_of_contents). Table of contents
 
@@ -134,27 +134,41 @@ Accepts *"auto"* or any interger. When *"auto"* a complex algorithm will be used
 
 </blockquote>
 
-h3(#options-device). device-touch, device-blackberry and device-other
+h3(#options-device). device.touch, device.blackberry and device.other
 
 <blockquote>
 Defines what devices scrollbars is to be used one.
 
-*device-touch* controls activation on touch handhelds (android and iOS).
+*device.touch* controls activation on touch handhelds (android and iOS).
 
-*device-blackberry* controls activation on blackberry devices.
+*device.blackberry* controls activation on blackberry devices.
 
-*device-other* controls activation on every other device.
+*device.other* controls activation on every other device.
 
 h4. Value
 
-*device-touch* and *device-blackberry* default to *false*
-*device-other* default to *true*
+*device.touch* and *device.blackberry* default to *false*
+*device.other* default to *true*
 
 Accepts any boolean
 
 h4. Warning
 
 No support for touch and blackbery devices has yet been coded into *Scrollbars V2*. Activate on these devices at your own risk.
+
+h4. Note
+
+This is a nested object. You would pass in something like this
+
+```js
+{
+    device: {
+        touch: true,
+        blackberry: false,
+        other: true
+    }
+}
+```
 
 </blockquote>
 
@@ -178,12 +192,24 @@ h4. Requires
 
 This option/feature requires the "jQuery Mousewheel":http://c.nath.is/DXCF plugin.
 
+<blockquote>
 h4. Value
 
 Defaults to *true*
 
 Accepts any boolean.
 </blockquote>
+
+
+h3(#options-mousewheelMultiplier). mousewheelMultiplier
+
+Modify this to speed up / slow down mousewheel.
+
+h4. Value
+
+Defaults to *1*
+
+Aceepts any number
 
 h1(#classes). Classes
 
